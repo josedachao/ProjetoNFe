@@ -1,0 +1,64 @@
+17:01:06 Log created
+17:01:06 ==================================================
+17:01:32 ==================================================
+17:01:42 ==================================================
+17:01:42 Executando EmitirNFe...
+17:01:42 Ambiente: producao
+17:01:42 Numero da NFe: 8680
+17:01:42 Conectado ao Banco de Dados
+17:01:43 CAROLINA FURLAN CARCAIOLI BILATO
+17:01:52 --------------------------------------------------
+17:01:52 ERRO DURANTE O ENVIO DA NFE:
+17:01:52 Erro Interno: 12002
+Erro HTTP: 0
+URL: https://nfe.fazenda.sp.gov.br/ws/nfeautorizacao4.asmx
+Erro: 12002 - TimeOut de Requisição
+
+17:01:52 --------------------------------------------------
+17:01:52 Código do Erro SEFAZ: 0
+17:01:52 Motivo da Rejeição: 
+17:01:52 ==================================================
+17:01:56 ==================================================
+17:01:57 Executando EmitirNFe...
+17:01:57 Ambiente: producao
+17:01:57 Numero da NFe: 8680
+17:01:57 Conectado ao Banco de Dados
+17:01:57 CAROLINA FURLAN CARCAIOLI BILATO
+17:02:01 SUCESSO! NFe Autorizada.
+17:02:01 Chave de acesso: 35260509167426000109550010000086801908395010
+17:02:01 Código Status: 100
+17:02:01 Motivo: Autorizado o uso da NF-e
+17:02:01 ==================================================
+17:02:44 ==================================================
+17:02:44 Executando EmitirNFe...
+17:02:44 Ambiente: producao
+17:02:44 Numero da NFe: 8681
+17:02:44 Conectado ao Banco de Dados
+17:02:44 NCA - PRODUCAO E COMERCIO DE ALIMENTOS LTDA.
+17:02:46 SUCESSO! NFe Autorizada.
+17:02:46 Chave de acesso: 35260509167426000109550010000086811264555472
+17:02:46 Código Status: 100
+17:02:46 Motivo: Autorizado o uso da NF-e
+17:02:46 ==================================================
+17:02:53 ==================================================
+17:02:53 Executando EmitirNFe...
+17:02:53 Ambiente: producao
+17:02:53 Numero da NFe: 8682
+17:02:53 Conectado ao Banco de Dados
+17:02:53 MERCADO CACIMBA LTDA
+17:02:55 SUCESSO! NFe Autorizada.
+17:02:55 Chave de acesso: 35260509167426000109550010000086821154957093
+17:02:55 Código Status: 100
+17:02:55 Motivo: Autorizado o uso da NF-e
+17:02:55 ==================================================
+17:03:05 ==================================================
+17:03:05 Executando EmitirNFe...
+17:03:05 Ambiente: producao
+17:03:05 Numero da NFe: 8683
+17:03:05 Conectado ao Banco de Dados
+17:03:05 MERCADO CACIMBA LTDA
+17:03:06 SUCESSO! NFe Autorizada.
+17:03:06 Chave de acesso: 35260509167426000109550010000086831095708417
+17:03:06 Código Status: 100
+17:03:06 Motivo: Autorizado o uso da NF-e
+17:03:06 ==================================================

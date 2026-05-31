@@ -1,0 +1,1 @@
+Repositório para armazenar os projetos para emissão automática de NFes após geração de pedidos no sistema Plugin

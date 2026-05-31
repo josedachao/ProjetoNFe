@@ -1,0 +1,73 @@
+@echo off
+chcp 1252 >nul
+setlocal
+
+:: Validação: Verifica se o primeiro parâmetro (Origem) foi informado
+if "%~1"=="" (
+    echo ====================================================
+    echo ERRO: A pasta de origem e obrigatoria.
+    echo.
+    echo USO: %~nx0 "Caminho\da\Origem" ["Caminho\do\Destino"]
+    echo Exemplo: %~nx0 "D:\NFe\202605" "D:\NFe\Processados"
+    echo ====================================================
+    goto :FIM
+)
+
+:: Configuração dos caminhos via parâmetros
+set "PASTA_XML=%~1"
+
+:: Verifica se o segundo parâmetro (Destino) foi informado
+:: Se não foi informado, assume a subpasta "\processados" na origem
+if "%~2"=="" (
+    set "PASTA_DESTINO=%~1\processados"
+) else (
+    set "PASTA_DESTINO=%~2"
+)
+
+set "EXECUTAVEL=extraixmlnfe.exe"
+
+echo ====================================================
+echo    INICIANDO ATUALIZACAO EM MASSA DE XMLs DA NFe
+echo ====================================================
+echo Pasta de origem: %PASTA_XML%
+echo Pasta de destino: %PASTA_DESTINO%
+echo.
+
+:: Verifica se a pasta de XMLs existe
+if not exist "%PASTA_XML%" (
+    echo ERRO: Pasta de XMLs "%PASTA_XML%" nao encontrada.
+    goto :FIM
+)
+
+:: Cria a pasta de destino caso nao exista
+if not exist "%PASTA_DESTINO%" (
+    mkdir "%PASTA_DESTINO%"
+)
+
+:: Varre todos os arquivos .xml da pasta informada (ignora subpastas)
+for %%F in ("%PASTA_XML%\*.xml") do (
+    echo Processando: %%~nxF
+    
+    :: Executa o programa e decide a ação com base no sucesso direto do ExitCode 0
+    "%EXECUTAVEL%" "%%~fF" && (
+        echo [OK] Processado com sucesso. Movendo arquivo...
+        move "%%~fF" "%PASTA_DESTINO%\" >nul
+    ) || (
+        :: Se falhar (ExitCode diferente de 0), avalia se foi o aviso específico 6
+        if errorlevel 6 (
+            if not errorlevel 7 (
+                echo [AVISO] Nota nao localizada no banco. Arquivo MANTIDO na origem.
+            ) else (
+                echo [ERRO] Falha critica ou erro de leitura. Arquivo MANTIDO na origem.
+            )
+        ) else (
+            echo [ERRO] Falha critica ou erro de leitura. Arquivo MANTIDO na origem.
+        )
+    )
+    echo ----------------------------------------------------
+)
+
+:FIM
+echo.
+echo Processo concluido!
+pause
