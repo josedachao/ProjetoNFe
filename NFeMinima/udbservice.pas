@@ -88,7 +88,12 @@ function GetDadosGeraisNFe(const NumNFe: Integer): TDadosGeraisNFe;
 implementation
 
 uses
-  SysUtils, SQLDB, mysql57conn, SQLDBLib, IBConnection;
+  SysUtils
+  , SQLDB
+  , mysql57conn
+  , SQLDBLib
+  , IBConnection
+  ;
 
 
 

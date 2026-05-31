@@ -32,6 +32,17 @@
       <Unit>
         <Filename Value="fileloggerunit.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="FileLoggerUnit"/>
+      </Unit>
+      <Unit>
+        <Filename Value="pluginutils.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="PluginUtils"/>
+      </Unit>
+      <Unit>
+        <Filename Value="freenfeutils.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="FreeNFeUtils"/>
       </Unit>
     </Units>
   </ProjectOptions>
@@ -45,6 +56,11 @@
       <IncludeFiles Value="$(ProjOutDir)"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
+    <Linking>
+      <Debugging>
+        <DebugInfoType Value="dsDwarf3"/>
+      </Debugging>
+    </Linking>
   </CompilerOptions>
   <Debugging>
     <Exceptions>

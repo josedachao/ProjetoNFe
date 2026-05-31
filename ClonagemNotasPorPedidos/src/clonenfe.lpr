@@ -10,6 +10,8 @@ uses
   , SysUtils
   , CustApp
   , FileLoggerUnit
+  , PluginUtils
+  , FreeNFeUtils
   ;
 
 type
@@ -20,6 +22,8 @@ type
   protected
     procedure DoRun; override;
     procedure ExibirAjuda; // Nova rotina para centralizar o texto de ajuda
+    procedure ClonarNFe(const NumPedido: Integer);
+    function EhDataValida(const Texto: string): Boolean;
   public
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
@@ -30,31 +34,72 @@ type
 
 procedure TCloneNFe.DoRun;
 var
+  StrData: String;
+  StrNumero: String;
+  IntNumero: Integer;
   ErrorMsg: String;
+  i: Integer = 0;
 begin
-  // quick check parameters
+//  LogToFile('++++++++++++++++++++++++++++++++++++++++++++++++++');
+  LogToFile('==================================================');
+  LogToFile('Iniciando o programa.');
+  //LogToFile('==================================================');
+  LogToFile('--------------------------------------------------');
+  try
+    // 1. Verifica se o usuário pediu ajuda por "?", "-h" ou "--help"
+    if (ParamStr(1) = '?') or HasOption('h', 'help') then begin
+      ExibirAjuda;
+      Exit;
+    end;
 
-  ErrorMsg:=CheckOptions('h', 'help');
-  if ErrorMsg<>'' then
-  begin
-    ShowException(Exception.Create(ErrorMsg));
+
+    CaseSensitiveOptions := False; // Permite misturar maiúsculas/minúsculas
+
+    // CORREÇÃO AQUI: 'd:n:' define as opções curtas -d e -n com parâmetros obrigatórios.
+    // 'data:' e 'num:' definem as opções longas --data e --num com parâmetros obrigatórios.
+    ErrorMsg := CheckOptions('d:n:', ['data:', 'num:'], True);
+    if ErrorMsg <> '' then begin
+      Writeln('Erro de parametros: ', ErrorMsg);
+      Writeln('Digite "clonenfe.exe ?" para ver as instrucoes de uso.');
+      Exit;
+    end;
+
+    // 3. Captura os valores como texto (Alinhado com as opções longas acima)
+    StrData := LowerCase(GetOptionValue('d', 'data'));
+    StrNumero := GetOptionValue('n', 'num');
+
+    // 4. Validação: Verifica se os campos são obrigatórios
+    if (StrData = '') or (StrNumero = '') then begin
+      Writeln('Erro: Os parametros -d (--data) e -n (--num) sao obrigatorios.');
+      Exit;
+    end;
+
+    // 5. Validação do conteúdo da Data (CORREÇÃO AQUI: adicionado o "not")
+    if not EhDataValida(StrData) then begin
+      Writeln('Erro: Data "', StrData, '" invalida.');
+      Exit;
+    end;
+
+    // 6. Validação: Transforma o texto em número inteiro
+    if not TryStrToInt(StrNumero, IntNumero) then begin
+      Writeln('Erro: O parametro --num deve ser um numero inteiro valido.');
+      Exit;
+    end;
+    if IntNumero <= 0 then begin
+      Writeln('Erro: O numero do Pedido deve ser maior que zero.');
+      Exit;
+    end;
+
+    // 7. Executa a lógica de negócio se tudo estiver correto
+    ClonarNFe(IntNumero);
+  finally
+    LogToFile('Saindo do programa.');
+    //LogToFile('++++++++++++++++++++++++++++++++++++++++++++++++++');
+    LogToFile('==================================================');
     Terminate;
-    Exit;
   end;
-
-  // parse parameters
-  if HasOption('h', 'help') then
-  begin
-    WriteHelp;
-    Terminate;
-    Exit;
-  end;
-
-  { add your program here }
-
-  // stop program loop
-  Terminate;
 end;
+
 
 procedure TCloneNFe.ExibirAjuda;
 begin
@@ -72,8 +117,40 @@ begin
   Writeln('');
   Writeln('Exemplos de uso:');
   Writeln('  CloneNFe.exe -d 25/05/2026');
+  Writeln('  CloneNFe.exe --data=25/05/2026');
+  Writeln('  CloneNFe.exe --n 10243');
   Writeln('  CloneNFe.exe --num=10243');
   Writeln('===================================================================');
+end;
+
+procedure TCloneNFe.ClonarNFe(const NumPedido: Integer);
+var
+  Pedido: TPedido;
+  Nota: TNFe;
+begin
+  WriteLn('===================================================');
+  Pedido := GetPedido(NumPedido);
+  if Pedido.CodFreeNFe = '' then
+  begin
+    WriteLn('Cliente nao encontrado no FreeNFe.');
+    WriteLn('Nao foi possivel clonar NFe.');
+    WriteLn('Saindo do programa...');
+    WriteLn('===================================================');
+    Exit;
+  end;
+  Nota := GetNFe(StrToInt(Pedido.CodFreeNFe));
+  WriteLn('O numero da ultima NFe do cliente e: ' + IntToStr(Nota.NumNFe));
+  WriteLn('O nome do cliente e: ' + Nota.Nome);
+  WriteLn('O valor da NFe e: ', FormatCurr('R$ #,##0.00', Nota.ValorNFe));
+  WriteLn('===================================================');
+end;
+
+function TCloneNFe.EhDataValida(const Texto: string): Boolean;
+var
+  DataConvertida: TDateTime;
+begin
+  // TryStrToDate retorna True se for válida e False se não for
+  Result := TryStrToDate(Texto, DataConvertida);
 end;
 
 constructor TCloneNFe.Create(TheOwner: TComponent);

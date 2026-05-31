@@ -105,105 +105,25 @@ const
   DB_PORT     = 3050;
   DB_CHARSET  = 'ISO8859_1';
 
-  function CEPToInteger(const ACEP: string): Integer;
-  var
-    i: Integer;
-    ApenasDigitos: string;
-  begin
-    ApenasDigitos := '';
-
-    for i := 1 to Length(ACEP) do
-    begin
-      if ACEP[i] in ['0'..'9'] then
-        ApenasDigitos := ApenasDigitos + ACEP[i];
-    end;
-
-    // Validação opcional
-    if Length(ApenasDigitos) <> 8 then
-      raise Exception.Create('CEP inválido.');
-
-    Result := StrToInt(ApenasDigitos);
-  end;
-
-
-{function LiquidarPedido(NumPedido: Integer): TLiquidacaoResultado;
+function CEPToInteger(const ACEP: string): Integer;
 var
-  LibLoader: TSQLDBLibraryLoader;
-  Conn   : TMySQL57Connection;
-  Trans  : TSQLTransaction;
-  Qry    : TSQLQuery;
-
-  Pedido : TPedidoParaLiquidacao;
-  LID    : Integer;
-  LRID   : Integer;
+   i: Integer;
+   ApenasDigitos: string;
 begin
-  LibLoader := TSQLDBLibraryLoader.Create(nil);
-  Conn  := TMySQL57Connection.Create(nil);
-  Trans := TSQLTransaction.Create(nil);
-  Qry   := TSQLQuery.Create(nil);
-  try
-    { Configuração da conexão }
-    Conn.HostName     := DB_HOST;
-    Conn.DatabaseName := DB_NAME;
-    Conn.UserName     := DB_USER;
-    Conn.Password     := DB_PASSWORD;
-    Conn.Port         := DB_PORT;
-    Conn.Charset      := DB_CHARSET;
+   ApenasDigitos := '';
 
-    LibLoader.ConnectionType := 'MySQL 5.7';
-    LibLoader.LibraryName := 'C:\PluginSolutions\libmysql.dll';
-    LibLoader.Enabled := True;
+   for i := 1 to Length(ACEP) do
+   begin
+     if ACEP[i] in ['0'..'9'] then
+       ApenasDigitos := ApenasDigitos + ACEP[i];
+   end;
 
+   // Validação opcional
+   if Length(ApenasDigitos) <> 8 then
+     raise Exception.Create('CEP inválido.');
 
-    Conn.Transaction := Trans;
-    Qry.DataBase     := Conn;
-    Qry.Transaction  := Trans;
-
-    Conn.Open;
-
-    Trans.StartTransaction;
-    try
-      { 1. Carregar e validar estado }
-      Pedido := SelectPedidoParaLiquidacao(Qry, NumPedido);
-
-      if Pedido.JaPago then
-        raise Exception.Create(CPedidoJaLiquidadoERR);
-
-      if Pedido.Valor <= 0 then
-        raise Exception.Create('Valor inválido para liquidação');
-
-      { 2. Criar lançamento contábil }
-      LID := InsertLiquidacao(Qry, Pedido.CodCliente);
-
-      { 3. Vincular título }
-      LRID := InsertLiquidacaoReceberi(Qry, LID, Pedido.ReceberiID);
-
-      { 4. Marcar título como pago (proteção contra dupla baixa) }
-      UpdateReceberiPago(Qry, Pedido.ReceberiID, LID, Pedido.Valor, CInfoPadrao);
-
-      { 5. Commit atômico }
-      Trans.Commit;
-
-      Result.NumPedido            := NumPedido;
-      Result.LiquidacaoID         := LID;
-      Result.LiquidacaoReceberiID := LRID;
-      Result.ValorPago            := Pedido.Valor;
-
-    except
-      on E: Exception do
-      begin
-        Trans.Rollback;
-        raise; // nunca esconder falha
-      end;
-    end;
-
-  finally
-    Qry.Free;
-    Trans.Free;
-    Conn.Free;
-    LibLoader.Free;
-  end;
-end;    }
+   Result := StrToInt(ApenasDigitos);
+end;
 
 function GetClient(NumNFe: Integer): TClienteResultado;
 const
@@ -214,6 +134,7 @@ var
   Qry    : TSQLQuery;
   Cliente: TClienteResultado;
 begin
+  Cliente.Entrega := False;
   Conn  := TIBConnection.Create(nil);
   try
         { Configuração da conexão }
