@@ -1,0 +1,28 @@
+# Executáveis e Binários compilados
+*.exe
+*.dll
+*.so
+*.dylib
+*.bin
+*.out
+*.app
+
+# Arquivos de unidades compiladas do Free Pascal
+*.ppu
+*.o
+*.a
+*.rst
+*.or
+*.res
+
+# Arquivos temporários e de configuração do Lazarus / FPC
+*.lps
+*.bak
+*.compiled
+*.manifest
+*~
+
+# Diretórios de saída comuns (caso você configure o projeto para salvar nelas)
+/lib/
+/backup/
+/bin/
