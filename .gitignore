@@ -26,3 +26,6 @@
 /lib/
 /backup/
 /bin/
+
+# Arquivos temporários diversos
+~$*
