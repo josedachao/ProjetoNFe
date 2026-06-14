@@ -40,7 +40,7 @@ end;
 procedure EmitirNFe(const AAmbiente: String; const ANumero: Integer);
 begin
   Writeln('--------------------------------------------------');
-  LogToFile('--------------------------------------------------');
+  LogToFile('==================================================');
   Writeln('Executando EmitirNFe...');
   LogToFile('Executando EmitirNFe...');
   Writeln('Ambiente: ', AAmbiente);
@@ -109,7 +109,7 @@ begin
 
   finally
     // INDEPENDENTE DE SUCESSO OU ERRO (RAISE), O PROGRAMA SEMPRE VAI ENCERRAR!
-    LogToFile('--------------------------------------------------');
+    LogToFile('==================================================');
     Terminate;
   end;
 end;

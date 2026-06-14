@@ -96,7 +96,7 @@ end;
 
 procedure IdentificacaoNFeReforma(var NotaF: NotaFiscal);
 begin
-  NotaF.NFe.Ide.cMunFGIBS := 3538204;
+//  NotaF.NFe.Ide.cMunFGIBS := 3538204;
   NotaF.NFe.Ide.finNFe := fnNormal;
   NotaF.NFe.Ide.tpNFCredito := tcNenhum;
 end;
@@ -164,9 +164,12 @@ begin
                                                    // a inclusão de serviços na NFe
 
       // esta sendo somando 1 uma vez que o ItemIndex inicia do zero e devemos
-      // passar os valores 1, 2 ou 3
-      // (1-crtSimplesNacional, 2-crtSimplesExcessoReceita, 3-crtRegimeNormal)
-    NotaF.NFe.Emit.CRT  := crtRegimeNormal;
+      // passar os valores 1, 2, 3 ou 4
+      // TpcnCRT = (crtSimplesNacional, crtSimplesExcessoReceita, crtRegimeNormal, crtMEI);
+
+      //NotaF.NFe.Emit.CRT := crtRegimeNormal;//<--- necessário verificar com a contabilidade
+
+      NotaF.NFe.Emit.CRT := TpcnCRT(3); // Injeta o índice 3 para gerar <CRT>4</CRT> no XML
 end;
 
 procedure PreencherDestinatario(var NotaF: NotaFiscal; const Cliente: TClienteResultado);
@@ -196,7 +199,7 @@ begin
 
    if Cliente.Entrega then
    begin
-     PreencherEnderecoEntrega(Cliente);
+     PreencherEnderecoEntrega(NotaF, Cliente);
    end;
 end;
 
