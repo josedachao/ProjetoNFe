@@ -1,4 +1,4 @@
-program nfeminima;
+program nfeminima_emite;
 
 uses {$IFDEF UNIX}cthreads, {$ENDIF}
   Interfaces // <--- Obrigatorio para o ACBr instanciar os objetos visuais internos

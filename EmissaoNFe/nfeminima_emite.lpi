@@ -10,7 +10,7 @@
         <MainUnitHasScaledStatement Value="False"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <Title Value="nfeminima"/>
+      <Title Value="nfeminima_emite"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
@@ -64,7 +64,7 @@
     </RequiredPackages>
     <Units>
       <Unit>
-        <Filename Value="nfeminima.lpr"/>
+        <Filename Value="nfeminima_emite.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
@@ -92,7 +92,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="executables\$(TargetCPU)-$(TargetOS)\nfeminima"/>
+      <Filename Value="executables\$(TargetCPU)-$(TargetOS)\nfeminima_emite"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
