@@ -1,0 +1,19 @@
+{"version":1,"strings":[
+{"hash":86973436,"name":"acbropensslutils.serralgorithmnotfound","sourcebytes":[65,108,103,111,114,105,116,104,109,32,37,115,32,110,111,116,32,102,111,117,110,100,32,105,110,32,79,112,101,110,83,83,76],"value":"Algorithm %s not found in OpenSSL"},
+{"hash":82196476,"name":"acbropensslutils.serrciphernotfound","sourcebytes":[67,105,112,104,101,114,32,37,115,32,110,111,116,32,102,111,117,110,100,32,105,110,32,79,112,101,110,83,83,76],"value":"Cipher %s not found in OpenSSL"},
+{"hash":19280409,"name":"acbropensslutils.serrfilenotinformed","sourcebytes":[70,105,108,101,78,97,109,101,32,105,115,32,101,109,112,116,121],"value":"FileName is empty"},
+{"hash":210444099,"name":"acbropensslutils.serrfilenotexists","sourcebytes":[70,105,108,101,58,32,37,115,32,100,111,101,115,32,110,111,116,32,101,120,105,115,116,115],"value":"File: %s does not exists"},
+{"hash":163530585,"name":"acbropensslutils.serrloadingrsakey","sourcebytes":[69,114,114,111,114,32,108,111,97,100,105,110,103,32,82,83,65,32,75,101,121],"value":"Error loading RSA Key"},
+{"hash":96423369,"name":"acbropensslutils.serrsettingrsakey","sourcebytes":[69,114,114,111,114,32,115,101,116,116,105,110,103,32,82,83,65,32,75,101,121],"value":"Error setting RSA Key"},
+{"hash":231662169,"name":"acbropensslutils.serrgeneratingrsakey","sourcebytes":[69,114,114,111,114,32,103,101,110,101,114,97,116,105,110,103,32,82,83,65,32,75,101,121],"value":"Error generating RSA Key"},
+{"hash":198072772,"name":"acbropensslutils.serrkeynotloaded","sourcebytes":[37,115,32,75,101,121,32,110,111,116,32,108,111,97,100,101,100],"value":"%s Key not loaded"},
+{"hash":237606569,"name":"acbropensslutils.serrloadingkey","sourcebytes":[69,114,114,111,114,32,108,111,97,100,105,110,103,32,37,115,32,75,101,121],"value":"Error loading %s Key"},
+{"hash":104939301,"name":"acbropensslutils.serrloadingcertificate","sourcebytes":[69,114,114,111,114,32,108,111,97,100,105,110,103,32,37,115,32,67,101,114,116,105,102,105,99,97,116,101],"value":"Error loading %s Certificate"},
+{"hash":129649092,"name":"acbropensslutils.serrcertificatenotloaded","sourcebytes":[67,101,114,116,105,102,105,99,97,116,101,32,110,111,116,32,108,111,97,100,101,100],"value":"Certificate not loaded"},
+{"hash":171088073,"name":"acbropensslutils.serrparamisempty","sourcebytes":[80,97,114,97,109,32,37,115,32,105,115,32,69,109,112,116,121],"value":"Param %s is Empty"},
+{"hash":97088389,"name":"acbropensslutils.serrparamisinvalid","sourcebytes":[80,97,114,97,109,32,37,115,32,104,97,115,32,105,110,118,97,108,105,100,32,118,97,108,117,101],"value":"Param %s has invalid value"},
+{"hash":23708772,"name":"acbropensslutils.serrinvalidopensshkey","sourcebytes":[79,112,101,110,83,83,72,32,75,101,121,32,105,115,32,73,110,118,97,108,105,100],"value":"OpenSSH Key is Invalid"},
+{"hash":147555476,"name":"acbropensslutils.serrcreatingctx","sourcebytes":[69,114,114,111,114,32,99,114,101,97,116,105,110,103,32,67,111,110,116,101,120,116],"value":"Error creating Context"},
+{"hash":108308787,"name":"acbropensslutils.serrmethoderror","sourcebytes":[69,114,114,111,114,32,111,110,32,109,101,116,104,111,100,32,37,115,10,37,115],"value":"Error on method %s\n%s"},
+{"hash":51104418,"name":"acbropensslutils.serroldversion","sourcebytes":[79,112,101,110,83,83,76,32,86,101,114,115,105,111,110,32,109,117,115,116,32,98,101,32,37,115,32,111,114,32,104,105,103,104,101,114],"value":"OpenSSL Version must be %s or higher"}
+]}

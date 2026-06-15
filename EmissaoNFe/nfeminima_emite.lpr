@@ -1,10 +1,12 @@
 program nfeminima_emite;
 
-uses {$IFDEF UNIX}cthreads, {$ENDIF}
-  Interfaces // <--- Obrigatorio para o ACBr instanciar os objetos visuais internos
-  , SysUtils
+uses {$IFDEF UNIX}cthreads, cwstring,{$ENDIF}
+  // Interfaces // <--- Obrigatorio para o ACBr instanciar os objetos visuais internos
+    SysUtils
   , CustApp
+  {$IFDEF MSWINDOWS}
   , ActiveX
+  {$ENDIF}
   , emissaonfe
   , ACBrDFe.Conversao
   , FileLoggerUnit
@@ -171,14 +173,18 @@ end;
 var
   App: TNotaApplication;
 begin
+  {$IFDEF MSWINDOWS}
   CoInitialize(nil); // <--- INICIALIZA O SUBSISTEMA DE REDE/CRIPTOGRAFIA DO WINDOWS
+  {$ENDIF}
     try
       App := TNotaApplication.Create(nil);
       App.Title := 'Emissor NFe';
       App.Run;
       App.Free;
     finally
+      {$IFDEF MSWINDOWS}
       CoUninitialize; // <--- LIBERA A MEMÓRIA AO FECHAR
+      {$ENDIF}
     end;
 end.
 

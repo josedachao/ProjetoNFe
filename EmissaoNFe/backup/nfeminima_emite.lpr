@@ -1,10 +1,12 @@
 program nfeminima_emite;
 
 uses {$IFDEF UNIX}cthreads, {$ENDIF}
-  Interfaces // <--- Obrigatorio para o ACBr instanciar os objetos visuais internos
-  , SysUtils
+  // Interfaces // <--- Obrigatorio para o ACBr instanciar os objetos visuais internos
+    SysUtils
   , CustApp
+  {$IFDEF MSWINDOWS}
   , ActiveX
+  {$ENDIF}
   , emissaonfe
   , ACBrDFe.Conversao
   , FileLoggerUnit
@@ -22,8 +24,8 @@ begin
   Writeln('===================================================================');
   Writeln('                      EMISSOR DE NFe CONSOLE                       ');
   Writeln('===================================================================');
-  Writeln('Uso: nfeminima.exe -e <ambiente> -n <numero_nfe>');
-  Writeln('     nfeminima.exe -e <ambiente> -r <inicio..fim>');
+  Writeln('Uso: nfeminima_emite.exe -e <ambiente> -n <numero_nfe>');
+  Writeln('     nfeminima_emite.exe -e <ambiente> -r <inicio..fim>');
   Writeln('');
   Writeln('Parametros disponiveis:');
   Writeln('  -e, --env    Define o ambiente de emissao.');
@@ -33,9 +35,9 @@ begin
   Writeln('  -h, --help   Exibe esta tela de ajuda.');
   Writeln('');
   Writeln('Exemplos de uso:');
-  Writeln('  nfeminima.exe -e homologacao -n 8558');
-  Writeln('  nfeminima.exe --env=producao --num=10243');
-  Writeln('  nfeminima.exe -e producao -r 8100..8130');
+  Writeln('  nfeminima_emite.exe -e homologacao -n 8558');
+  Writeln('  nfeminima_emite.exe --env=producao --num=10243');
+  Writeln('  nfeminima_emite.exe -e producao -r 8100..8130');
   Writeln('===================================================================');
 end;
 
@@ -80,7 +82,7 @@ begin
     ErrorMsg := CheckOptions('enr', ['env:', 'num:', 'range:']);
     if ErrorMsg <> '' then begin
       Writeln('Erro de parametros: ', ErrorMsg);
-      Writeln('Digite "nfeminima.exe ?" para ver as instrucoes de uso.');
+      Writeln('Digite "nfeminima_emite.exe ?" para ver as instrucoes de uso.');
       Exit;
     end;
 
@@ -171,14 +173,18 @@ end;
 var
   App: TNotaApplication;
 begin
+  {$IFDEF MSWINDOWS}
   CoInitialize(nil); // <--- INICIALIZA O SUBSISTEMA DE REDE/CRIPTOGRAFIA DO WINDOWS
+  {$ENDIF}
     try
       App := TNotaApplication.Create(nil);
       App.Title := 'Emissor NFe';
       App.Run;
       App.Free;
     finally
+      {$IFDEF MSWINDOWS}
       CoUninitialize; // <--- LIBERA A MEMÓRIA AO FECHAR
+      {$ENDIF}
     end;
 end.
 
@@ -229,8 +235,8 @@ begin
   Writeln('===================================================================');
   Writeln('                      EMISSOR DE NFe CONSOLE                       ');
   Writeln('===================================================================');
-  Writeln('Uso: nfeminima.exe -e <ambiente> -n <numero_nfe>');
-  Writeln('     nfeminima.exe --env=<ambiente> --num=<numero_nfe>');
+  Writeln('Uso: nfeminima_emite.exe -e <ambiente> -n <numero_nfe>');
+  Writeln('     nfeminima_emite.exe --env=<ambiente> --num=<numero_nfe>');
   Writeln('');
   Writeln('Parametros disponiveis:');
   Writeln('  -e, --env   Define o ambiente de emissao.');
@@ -239,8 +245,8 @@ begin
   Writeln('  -h, --help  Exibe esta tela de ajuda.');
   Writeln('');
   Writeln('Exemplos de uso:');
-  Writeln('  nfeminima.exe -e homologacao -n 8558');
-  Writeln('  nfeminima.exe --env=producao --num=10243');
+  Writeln('  nfeminima_emite.exe -e homologacao -n 8558');
+  Writeln('  nfeminima_emite.exe --env=producao --num=10243');
   Writeln('===================================================================');
 end;
 
@@ -280,7 +286,7 @@ begin
     ErrorMsg := CheckOptions('en', ['env:', 'num:']);
     if ErrorMsg <> '' then begin
       Writeln('Erro de parametros: ', ErrorMsg);
-      Writeln('Digite "nfeminima.exe ?" para ver as instrucoes de uso.');
+      Writeln('Digite "nfeminima_emite.exe ?" para ver as instrucoes de uso.');
       Exit;
     end;
 

@@ -104,9 +104,21 @@ const
 
   { Ajustar conforme seu ambiente }
   DB_HOST     = '127.0.0.1';
+  {$IFDEF WINDOWS}
   DB_NAME     = 'C:\FreeNFe\Banco\HMNFE.FDB';
+  {$ELSE}
+  {$IFDEF Linux}
+  DB_NAME     = '/opt/firebird/data/HMNFE.FDB';
+  {$ENDIF}
+  {$ENDIF}
   DB_USER     = 'SYSDBA';
+  {$IFDEF WINDOWS}
   DB_PASSWORD = 'masterkey';
+  {$ELSE}
+  {$IFDEF Linux}
+  DB_PASSWORD = 'Outr453nh4!';
+  {$ENDIF}
+  {$ENDIF}
   DB_PORT     = 3050;
   DB_CHARSET  = 'ISO8859_1';
 

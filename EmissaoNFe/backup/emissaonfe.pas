@@ -17,7 +17,7 @@ uses
 //  , ACBrNFeDANFeRLClass
   , ACBrNFeDANFeFPDF
   , ACBrMail
-  , SynHighlighterXML
+//  , SynHighlighterXML
   , ACBrDFeSSL
   , uDBService
   , geracaonfeteste
@@ -30,9 +30,9 @@ implementation
 
 var
   ACBrNFe1: TACBrNFe; //unit ACBrNFe
-  ACBrNFeDANFeRL1: TACBrNFeDANFeFPDF;  //unit ACBrNFeDANFeRLClass
+  ACBrNFeDANFe: TACBrNFeDANFeFPDF;  //unit ACBrNFeDANFeRLClass
   ACBrMail1: TACBrMail;  //unit ACBrMail
-  SynXMLSyn1: TSynXMLSyn;  //unit SynHighlighterXML
+//  SynXMLSyn1: TSynXMLSyn;  //unit SynHighlighterXML
 
 procedure ConfigurarEmail;
 begin
@@ -53,12 +53,23 @@ begin
   with ACBrNFe1.Configuracoes.Geral do
   begin
     ModeloDF := moNFe;
+    ExibirErroSchema := False;
+    FormatoAlerta := 'Campo:%DESCRICAO% - %MSG%';
+
+    // O LibXml2 funciona perfeitamente em Windows e Linux
+    SSLXmlSignLib := xsLibXml2;
+
+    {$IFDEF MSWINDOWS}
+    // Configuração otimizada para Windows (usa as APIs nativas do sistema)
     SSLLib := libWinCrypt;
     SSLCryptLib := cryWinCrypt;
     SSLHttpLib := httpWinHttp;
-    SSLXmlSignLib := xsLibXml2;
-    ExibirErroSchema := False;
-    FormatoAlerta := 'Campo:%DESCRICAO% - %MSG%';
+    {$ELSE}
+    // Configuração obrigatória para Linux / Docker (usa OpenSSL)
+    SSLLib        := libOpenSSL;
+    SSLCryptLib   := cryOpenSSL;
+    SSLHttpLib    := httpOpenSSL;
+    {$ENDIF}
   end;
 
   // ADICIONE ESTA LINHA OBRIGATORIAMENTE PARA TIRAR AS JANELAS DE MENSAGEM
@@ -67,12 +78,18 @@ begin
   with ACBrNFe1.Configuracoes.Certificados do
   begin
     URLPFX      := '';
+    {$IFDEF WINDOWS}
     ArquivoPFX  := 'C:\FreeNFe\Certificados\MARGARIDA PIRES DA CHAO E OUTRO_09167426000109.pfx';
+    {$ELSE}
+    {$IFDEF Linux}
+    ArquivoPFX  := ExtractFilePath(ParamStr(0))+'cert/MARGARIDA PIRES DA CHAO E OUTRO_09167426000109.pfx';
+    {$ENDIF}
+    {$ENDIF}
     Senha       := '123456';
     //NumeroSerie := '00a8548246980eb1834a55';
   end;
 
-  ACBrNFe1.DANFE := ACBrNFeDANFeRL1; //ACBrNFeDANFeFPDF1;//
+//  ACBrNFe1.DANFE := ACBrNFeDANFe; //ACBrNFeDANFeFPDF1;//
 
   with ACBrNFe1.Configuracoes.Arquivos do
   begin
@@ -83,31 +100,59 @@ begin
     SalvarEvento     := True;
     SepararPorCNPJ   := True;
     SepararPorModelo := True;
-    PathSchemas      := ExtractFilePath(ParamStr(0))+'Schemas\NFe';
-    PathNFe          := ExtractFilePath(ParamStr(0))+'\NFe';
-    PathInu          := ExtractFilePath(ParamStr(0))+'\Inutilizacao';
-    PathEvento       := ExtractFilePath(ParamStr(0))+'\Evento';
-//    PathMensal       := ExtractFilePath(ParamStr(0))+'\NFe';
-    PathSalvar       := ExtractFilePath(ParamStr(0))+'\Logs';
+    {$IFDEF WINDOWS}
+    PathSchemas      := ExtractFilePath(ParamStr(0))+'Schemas + PathDelim + NFe';
+    PathNFe          := ExtractFilePath(ParamStr(0))+'NFe';
+    PathInu          := ExtractFilePath(ParamStr(0))+'Inutilizacao';
+    PathEvento       := ExtractFilePath(ParamStr(0))+'Evento';
+//    PathMensal       := ExtractFilePath(ParamStr(0))+'NFe';
+    PathSalvar       := ExtractFilePath(ParamStr(0))+'Logs';
+    {$ELSE}
+    {$IFDEF Linux}
+    PathSchemas      := ExtractFilePath(ParamStr(0))+'Schemas + PathDelim + NFe';
+    PathNFe          := ExtractFilePath(ParamStr(0))+'NFe';
+    PathInu          := ExtractFilePath(ParamStr(0))+'Inutilizacao';
+    PathEvento       := ExtractFilePath(ParamStr(0))+'Evento';
+//    PathMensal       := ExtractFilePath(ParamStr(0))+'NFe';
+    PathSalvar       := ExtractFilePath(ParamStr(0))+'Logs';
+    {$ENDIF}
+    {$ENDIF}
   end;
 
   with ACBrNFe1.Configuracoes.WebServices do
   begin
     UF         := 'SP';
-    Ambiente := AAmbiente;
+    Ambiente   := AAmbiente;
     Visualizar := False;    //FALSE para console
     Salvar     := True;
     TimeOut    := 5000;
     AjustaAguardaConsultaRet := True;
     Tentativas := 5;
   end;
+
+  with ACBrNFeDANFe do
+  begin
+    MostraSetup := False; // Desativa a tela de seleção de impressora do Windows
+    //MostraProgress := False; // Impede que o Lazarus tente abrir uma barra de progresso visual
+    MostraPreview := False; // Não abre a janela de visualização do PDF
+
+    // Configuração para salvar em arquivo
+    PathPDF := ExtractFilePath(ParamStr(0)) + 'PDFs' + PathDelim; // Salva em uma pasta chamada "PDFs" ao lado do executável
+    // Cria a pasta automaticamente caso ela não exista
+    ForceDirectories(PathPDF);
+  end;
+
 end;
 
 procedure GerarNFe(NumNFe: string);
 var
   NotaF: NotaFiscal;
 begin
-  if ConnectNFE then WriteLn('Conectado ao Banco de Dados');
+  if ConnectNFE then
+  begin
+    WriteLn('Conectado ao Banco de Dados');
+    LogToFile('Conectado ao Banco de Dados');
+  end;
   if NumNFe <> '' then
   begin
     AlimentarNFE(ACBrNFe1, NumNFe, ACBrNFe1.Configuracoes.WebServices.Ambiente);
@@ -127,7 +172,7 @@ begin
         WriteLn('SUCESSO! NFe Autorizada.');
         LogToFile('SUCESSO! NFe Autorizada.');
         // Se você precisar gerar o PDF silenciosamente, o comando é este:
-      // ACBrNFe1.NotasFiscais.Items[0].ImprimirPDF;
+        ACBrNFe1.NotasFiscais.Items[0].ImprimirPDF;
       end
       else
       begin
@@ -189,20 +234,23 @@ end;
 
 initialization
   ACBrNFe1 := TACBrNFe.Create(Nil);
-  ACBrNFeDANFeRL1 := TACBrNFeDANFeFPDF.Create(Nil);
-  //ACBrNFeDANFeRL1 := TACBrNFeDANFeRL.Create(Nil);
+
+
+  {//ACBrNFeDANFeRL1 := TACBrNFeDANFeRL.Create(Nil);
   //ACBrNFeDANFeRL1.MostraSetup    := False;
-  //ACBrNFeDANFeRL1.InterfaceEps   := False; // Evita carregar fontes de tela
-  ACBrNFeDANFeRL1.ACBrNFe := ACBrNFe1;
-  ACBrNFe1.DANFE := ACBrNFeDANFeRL1;
+  //ACBrNFeDANFeRL1.InterfaceEps   := False; // Evita carregar fontes de tela}
+
+  ACBrNFeDANFe := TACBrNFeDANFeFPDF.Create(Nil);
+  ACBrNFeDANFe.ACBrNFe := ACBrNFe1;
+  ACBrNFe1.DANFE := ACBrNFeDANFe;
   ACBrMail1 := TACBrMail.Create(Nil);
-  SynXMLSyn1 := TSynXMLSyn.Create(Nil);
+ // SynXMLSyn1 := TSynXMLSyn.Create(Nil);
 
 finalization
   ACBrNFe1.Free;
-  ACBrNFeDANFeRL1.Free;
+  ACBrNFeDANFe.Free;
   ACBrMail1.Free;
-  SynXMLSyn1.Free;
+  //SynXMLSyn1.Free;
 
 end.
 
