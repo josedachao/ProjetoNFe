@@ -119,8 +119,15 @@ const
   DB_PASSWORD = 'Outr453nh4!';
   {$ENDIF}
   {$ENDIF}
+  {$IFDEF WINDOWS}
   DB_PORT     = 3050;
+  {$ELSE}
+  {$IFDEF Linux}
+  DB_PORT     = 3050;
+  {$ENDIF}
+  {$ENDIF}
   DB_CHARSET  = 'ISO8859_1';
+
 
 function CEPToInteger(const ACEP: string): Integer;
 var

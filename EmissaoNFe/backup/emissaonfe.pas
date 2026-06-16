@@ -57,8 +57,13 @@ begin
     FormatoAlerta := 'Campo:%DESCRICAO% - %MSG%';
 
     // O LibXml2 funciona perfeitamente em Windows e Linux
+    {$IFDEF MSWINDOWS}
     SSLXmlSignLib := xsLibXml2;
-
+    {$ELSE}
+    {$IFDEF Linux}
+    SSLXmlSignLib := xsXmlSec;
+    {$ENDIF}
+    {$ENDIF}
     {$IFDEF MSWINDOWS}
     // Configuração otimizada para Windows (usa as APIs nativas do sistema)
     SSLLib := libWinCrypt;
@@ -101,7 +106,7 @@ begin
     SepararPorCNPJ   := True;
     SepararPorModelo := True;
     {$IFDEF WINDOWS}
-    PathSchemas      := ExtractFilePath(ParamStr(0))+'Schemas + PathDelim + NFe';
+    PathSchemas      := ExtractFilePath(ParamStr(0))+'Schemas' + PathDelim + 'NFe';
     PathNFe          := ExtractFilePath(ParamStr(0))+'NFe';
     PathInu          := ExtractFilePath(ParamStr(0))+'Inutilizacao';
     PathEvento       := ExtractFilePath(ParamStr(0))+'Evento';
@@ -109,7 +114,7 @@ begin
     PathSalvar       := ExtractFilePath(ParamStr(0))+'Logs';
     {$ELSE}
     {$IFDEF Linux}
-    PathSchemas      := ExtractFilePath(ParamStr(0))+'Schemas + PathDelim + NFe';
+    PathSchemas      := ExtractFilePath(ParamStr(0))+'Schemas' + PathDelim + 'NFe';
     PathNFe          := ExtractFilePath(ParamStr(0))+'NFe';
     PathInu          := ExtractFilePath(ParamStr(0))+'Inutilizacao';
     PathEvento       := ExtractFilePath(ParamStr(0))+'Evento';

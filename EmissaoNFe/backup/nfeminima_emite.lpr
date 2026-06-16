@@ -1,6 +1,6 @@
 program nfeminima_emite;
 
-uses {$IFDEF UNIX}cthreads, {$ENDIF}
+uses {$IFDEF UNIX}cthreads, cwstring, BlindagemFPU,{$ENDIF}
   // Interfaces // <--- Obrigatorio para o ACBr instanciar os objetos visuais internos
     SysUtils
   , CustApp

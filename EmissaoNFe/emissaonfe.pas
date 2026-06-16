@@ -57,8 +57,13 @@ begin
     FormatoAlerta := 'Campo:%DESCRICAO% - %MSG%';
 
     // O LibXml2 funciona perfeitamente em Windows e Linux
+    {$IFDEF MSWINDOWS}
     SSLXmlSignLib := xsLibXml2;
-
+    {$ELSE}
+    {$IFDEF Linux}
+    SSLXmlSignLib := xsLibXml2;//SSLXmlSignLib := xsXmlSec;
+    {$ENDIF}
+    {$ENDIF}
     {$IFDEF MSWINDOWS}
     // Configuração otimizada para Windows (usa as APIs nativas do sistema)
     SSLLib := libWinCrypt;

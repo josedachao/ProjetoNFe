@@ -103,12 +103,38 @@ const
   CPedidoJaLiquidadoERR = 'O pedido já está liquidado';
 
   { Ajustar conforme seu ambiente }
+{  DB_HOST     = '127.0.0.1';
+  {$IFDEF WINDOWS}
+  DB_NAME     = 'C:\FreeNFe\Banco\HMNFE.FDB';
+  {$ELSE}
+  {$IFDEF Linux}
+  DB_NAME     = '/opt/firebird/data/HMNFE.FDB';
+  {$ENDIF}
+  {$ENDIF}
+  DB_USER     = 'SYSDBA';
+  {$IFDEF WINDOWS}
+  DB_PASSWORD = 'masterkey';
+  {$ELSE}
+  {$IFDEF Linux}
+  DB_PASSWORD = 'Outr453nh4!';
+  {$ENDIF}
+  {$ENDIF}
+  {$IFDEF WINDOWS}
+  DB_PORT     = 3050;
+  {$ELSE}
+  {$IFDEF Linux}
+  DB_PORT     = 3050;
+  {$ENDIF}
+  {$ENDIF}
+  DB_CHARSET  = 'ISO8859_1';       }
+
   DB_HOST     = '127.0.0.1';
   DB_NAME     = 'C:\FreeNFe\Banco\HMNFE.FDB';
   DB_USER     = 'SYSDBA';
   DB_PASSWORD = 'masterkey';
   DB_PORT     = 3050;
   DB_CHARSET  = 'ISO8859_1';
+
 
 function CEPToInteger(const ACEP: string): Integer;
 var
