@@ -26,9 +26,9 @@
 *.dbg
 
 # Diretórios de saída comuns (caso você configure o projeto para salvar nelas)
-/lib/
-/backup/
-/bin/
+lib/
+backup/
+bin/
 
 # Arquivos temporários diversos
 ~$*
@@ -40,8 +40,8 @@
 nfeminima_emite
 
 # Pastas de conteúdo variável que não devem ser comitados
-/PDFs/
-/cert/
-/Logs/
-/NFe/
-/Schemas/
+PDFs/
+cert/
+Logs/
+NFe/
+Schemas/
