@@ -1,6 +1,7 @@
 unit EmissaoNFe;
 
 {$mode ObjFPC}{$H+}
+{$codepage utf8}
 
 interface
 
@@ -133,6 +134,7 @@ begin
     TimeOut    := 5000;
     AjustaAguardaConsultaRet := True;
     Tentativas := 5;
+    QuebradeLinha := ';';
   end;
 
   with ACBrNFeDANFe do
@@ -140,6 +142,12 @@ begin
     MostraSetup := False; // Desativa a tela de seleção de impressora do Windows
     //MostraProgress := False; // Impede que o Lazarus tente abrir uma barra de progresso visual
     MostraPreview := False; // Não abre a janela de visualização do PDF
+    MostraStatus := False;
+    // Nova propriedade para forçar o tratamento correto de strings no FPDF moderno:
+    FormatarNumeroDocumento := True;
+
+    Sistema := 'CogERP';
+    Site := 'www.cogumelosdachao.com.br';
 
     // Configuração para salvar em arquivo
     PathPDF := ExtractFilePath(ParamStr(0)) + 'PDFs' + PathDelim; // Salva em uma pasta chamada "PDFs" ao lado do executável
@@ -239,23 +247,14 @@ end;
 
 initialization
   ACBrNFe1 := TACBrNFe.Create(Nil);
-
-
-  {//ACBrNFeDANFeRL1 := TACBrNFeDANFeRL.Create(Nil);
-  //ACBrNFeDANFeRL1.MostraSetup    := False;
-  //ACBrNFeDANFeRL1.InterfaceEps   := False; // Evita carregar fontes de tela}
-
   ACBrNFeDANFe := TACBrNFeDANFeFPDF.Create(Nil);
   ACBrNFeDANFe.ACBrNFe := ACBrNFe1;
   ACBrNFe1.DANFE := ACBrNFeDANFe;
   ACBrMail1 := TACBrMail.Create(Nil);
- // SynXMLSyn1 := TSynXMLSyn.Create(Nil);
 
 finalization
   ACBrNFe1.Free;
   ACBrNFeDANFe.Free;
   ACBrMail1.Free;
-  //SynXMLSyn1.Free;
-
 end.
 

@@ -1,8 +1,10 @@
 program nfeminima_emite;
 
+{$mode ObjFPC}{$H+}
+{$codepage utf8}
+
 uses {$IFDEF UNIX}cthreads, cwstring, BlindagemFPU,{$ENDIF}
-  // Interfaces // <--- Obrigatorio para o ACBr instanciar os objetos visuais internos
-    SysUtils
+  SysUtils
   , CustApp
   {$IFDEF MSWINDOWS}
   , ActiveX
@@ -176,17 +178,16 @@ begin
   {$IFDEF MSWINDOWS}
   CoInitialize(nil); // <--- INICIALIZA O SUBSISTEMA DE REDE/CRIPTOGRAFIA DO WINDOWS
   {$ENDIF}
-    try
-      App := TNotaApplication.Create(nil);
-      App.Title := 'Emissor NFe';
-      App.Run;
-      App.Free;
-    finally
-      {$IFDEF MSWINDOWS}
-      CoUninitialize; // <--- LIBERA A MEMÓRIA AO FECHAR
-      {$ENDIF}
-    end;
-  ReadLn();
+  try
+    App := TNotaApplication.Create(nil);
+    App.Title := 'Emissor NFe';
+    App.Run;
+    App.Free;
+  finally
+    {$IFDEF MSWINDOWS}
+    CoUninitialize; // <--- LIBERA A MEMÓRIA AO FECHAR
+    {$ENDIF}
+  end;
 end.
 
 

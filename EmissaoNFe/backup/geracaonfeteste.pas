@@ -1,12 +1,14 @@
 unit geracaonfeteste;
 
 {$mode ObjFPC}{$H+}
+{$codepage utf8}
 
 interface
 
 uses
   Classes
   , SysUtils
+  , LazUTF8
   , ACBrNFeNotasFiscais
   , ACBrNFe.Classes
   , ACBrNFe
@@ -167,9 +169,7 @@ begin
       // passar os valores 1, 2, 3 ou 4
       // TpcnCRT = (crtSimplesNacional, crtSimplesExcessoReceita, crtRegimeNormal, crtMEI);
 
-      //NotaF.NFe.Emit.CRT := crtRegimeNormal;//<--- necessário verificar com a contabilidade
-
-      NotaF.NFe.Emit.CRT := TpcnCRT(3); // Injeta o índice 3 para gerar <CRT>4</CRT> no XML
+      NotaF.NFe.Emit.CRT := crtRegimeNormal;//<--- necessário verificar com a contabilidade
 end;
 
 procedure PreencherDestinatario(var NotaF: NotaFiscal; const Cliente: TClienteResultado);

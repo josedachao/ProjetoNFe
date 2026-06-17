@@ -1,16 +1,18 @@
 unit BlindagemFPU;
 
 {$mode objfpc}{$H+}
+{$codepage utf8}
 
 interface
 
 implementation
 uses
   {$IFDEF LINUX}
-  Math;
-  {$ELSE}
-  SysUtils;
-  {$ENDIF}
+  Math,
+ {$ENDIF}
+  SysUtils
+  , LazUTF8;
+
 
 initialization
   {$IFDEF LINUX}

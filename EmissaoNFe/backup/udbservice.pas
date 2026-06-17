@@ -1,8 +1,13 @@
 unit uDBService;
 
 {$mode ObjFPC}{$H+}
+{$codepage utf8}
 
 interface
+
+uses
+  LazUTF8
+  ;
 
 type
 
@@ -103,7 +108,7 @@ const
   CPedidoJaLiquidadoERR = 'O pedido já está liquidado';
 
   { Ajustar conforme seu ambiente }
-{  DB_HOST     = '127.0.0.1';
+  DB_HOST     = '127.0.0.1';
   {$IFDEF WINDOWS}
   DB_NAME     = 'C:\FreeNFe\Banco\HMNFE.FDB';
   {$ELSE}
@@ -126,14 +131,78 @@ const
   DB_PORT     = 3050;
   {$ENDIF}
   {$ENDIF}
-  DB_CHARSET  = 'ISO8859_1';       }
-
-  DB_HOST     = '127.0.0.1';
-  DB_NAME     = 'C:\FreeNFe\Banco\HMNFE.FDB';
-  DB_USER     = 'SYSDBA';
-  DB_PASSWORD = 'masterkey';
-  DB_PORT     = 3050;
   DB_CHARSET  = 'ISO8859_1';
+
+
+{function RemoverAcentosLazarus(const AString: String): String;
+const
+   // Definidos explicitamente como UnicodeString para o Lazarus casar as posições
+   ComAcento: UnicodeString = 'áàãâäéèêëíìîïóòõôöúùûüçÁÀÃÂÄÉÈÊËÍÌÎÏÓÒÕÔÖÚÙÛÜÇýÝñÑ';
+   SemAcento: UnicodeString = 'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUCyYnN';
+var
+   UStr: UnicodeString;
+   I, Posicao: Integer;
+begin
+   // Converte a string UTF-8 do Lazarus para UnicodeString
+   UStr := UnicodeString(AString);
+
+   for I := 1 to Length(UStr) do
+   begin
+     Posicao := Pos(UStr[I], ComAcento);
+     if Posicao > 0 then
+       UStr[I] := SemAcento[Posicao];
+   end;
+
+   // Converte de volta para a string padrão do Lazarus (UTF-8)
+   Result := String(UStr);
+end;     }
+
+function RemoverAcentosPureUTF8(const AString: String): String;
+const
+  // Arrays casados com os caracteres em formato UTF-8 puro
+  ComAcento: array[0..49] of String = (
+    'á','à','ã','â','ä','é','è','ê','ë','í',
+    'ì','î','ï','ó','ò','õ','ô','ö','ú','ù',
+    'û','ü','ç','Á','À','Ã','Â','Ä','É','È',
+    'Ê','Ë','Í','Ì','Î','Ï','Ó','Ò','Õ','Ô',
+    'Ö','Ú','Ù','Û','Ü','Ç','ý','Ý','ñ','Ñ'
+  );
+
+  SemAcento: array[0..49] of String = (
+    'a','a','a','a','a','e','e','e','e','i',
+    'i','i','i','o','o','o','o','o','u','u',
+    'u','u','c','A','A','A','A','A','E','E',
+    'E','E','I','I','I','I','O','O','O','O',
+    'O','U','U','U','U','C','y','Y','n','N'
+  );
+var
+  I: Integer;
+begin
+  // Iniciamos o resultado com a string original recebida
+  Result := AString;
+
+  // O loop intercepta caractere por caractere acentuado
+  for I := 0 to High(ComAcento) do
+  begin
+    // Se encontrar o caractere acentuado na string...
+    if Pos(ComAcento[I], Result) > 0 then
+    begin
+      // Substitui usando a engine segura do Lazarus para UTF-8
+      Result := UTF8StringReplace(Result, ComAcento[I], SemAcento[I], [rfReplaceAll]);
+    end;
+  end;
+end;
+
+{function PrepararTexto(const ATexto: string): string;
+begin
+  // No Windows, o FPDF do ACBr exige ANSI puro (CP1252) para mapear as fontes do PDF
+  {$IFDEF MSWINDOWS}
+  Result := UTF8ToAnsi(ATexto);
+  {$ELSE}
+  // No Linux, o comportamento padrão que você já validou deve ser mantido
+  Result := ATexto;
+  {$ENDIF}
+end; }
 
 
 function CEPToInteger(const ACEP: string): Integer;
@@ -191,17 +260,18 @@ begin
     if not Qry.EOF then
     begin
       Cliente.idNFE   := Qry.FieldByName('ID').AsInteger;
-      Cliente.CNPJCPF := Qry.FieldByName('DEST_CNPJCPF').AsString;
-      Cliente.xNome   := Qry.FieldByName('DEST_XNOME').AsString;
-      Cliente.IE      := Qry.FieldByName('DEST_IE').AsString;
-      Cliente.Fone    := Qry.FieldByName('DEST_ENDERDEST_FONE').AsString;
-      Cliente.xBairro := Qry.FieldByName('DEST_ENDERDEST_XBAIRRO').AsString;
-      Cliente.xLgr    := Qry.FieldByName('DEST_ENDERDEST_XLGR').AsString;
-      Cliente.xCpl    := Qry.FieldByName('DEST_ENDERDEST_XCPL').AsString;
+      Cliente.CNPJCPF := RemoverAcentosPureUTF8(Qry.FieldByName('DEST_CNPJCPF').AsString);
+      Cliente.xNome   := RemoverAcentosPureUTF8(Qry.FieldByName('DEST_XNOME').AsString);
+      Cliente.IE      := RemoverAcentosPureUTF8(Qry.FieldByName('DEST_IE').AsString);
+      Cliente.Fone    := RemoverAcentosPureUTF8(Qry.FieldByName('DEST_ENDERDEST_FONE').AsString);
+      Cliente.xBairro := RemoverAcentosPureUTF8(Qry.FieldByName('DEST_ENDERDEST_XBAIRRO').AsString);
+      Cliente.xLgr    := RemoverAcentosPureUTF8(Qry.FieldByName('DEST_ENDERDEST_XLGR').AsString);
+      Cliente.xCpl    := RemoverAcentosPureUTF8(Qry.FieldByName('DEST_ENDERDEST_XCPL').AsString);
+      //Cliente.xMun    := RemoverAcentosPureUTF8(Qry.FieldByName('DEST_ENDERDEST_XMUN').AsString);
       Cliente.xMun    := Qry.FieldByName('DEST_ENDERDEST_XMUN').AsString;
-      Cliente.UF      := Qry.FieldByName('DEST_ENDERDEST_UF').AsString;
-      Cliente.xPais   := Qry.FieldByName('DEST_ENDERDEST_XPAIS').AsString;
-      Cliente.nro     := Qry.FieldByName('DEST_ENDERDEST_NRO').AsString;
+      Cliente.UF      := RemoverAcentosPureUTF8(Qry.FieldByName('DEST_ENDERDEST_UF').AsString);
+      Cliente.xPais   := RemoverAcentosPureUTF8(Qry.FieldByName('DEST_ENDERDEST_XPAIS').AsString);
+      Cliente.nro     := RemoverAcentosPureUTF8(Qry.FieldByName('DEST_ENDERDEST_NRO').AsString);
       Cliente.CEP     := CEPToInteger(Qry.FieldByName('DEST_ENDERDEST_CEP').AsString);
       Cliente.cMun    := Qry.FieldByName('DEST_ENDERDEST_CMUN').AsInteger;
       Cliente.cPais   := Qry.FieldByName('DEST_ENDERDEST_CPAIS').AsInteger;
@@ -209,16 +279,16 @@ begin
       begin
         Cliente.Entrega := True;
         Cliente.EnderecoEntrega.cMun    := Qry.FieldByName('ENTREGA_CMUN').AsInteger;
-        Cliente.EnderecoEntrega.xMun    := Qry.FieldByName('ENTREGA_XMUN').AsString;
-        Cliente.EnderecoEntrega.UF      := Qry.FieldByName('ENTREGA_UF').AsString;
-        Cliente.EnderecoEntrega.xBairro := Qry.FieldByName('ENTREGA_XBAIRRO').AsString;
-        Cliente.EnderecoEntrega.xCpl    := Qry.FieldByName('ENTREGA_XCPL').AsString;
-        Cliente.EnderecoEntrega.nro     := Qry.FieldByName('ENTREGA_NRO').AsString;
-        Cliente.EnderecoEntrega.xLgr    := Qry.FieldByName('ENTREGA_XLGR').AsString;
+        Cliente.EnderecoEntrega.xMun    := RemoverAcentosPureUTF8(Qry.FieldByName('ENTREGA_XMUN').AsString);
+        Cliente.EnderecoEntrega.UF      := RemoverAcentosPureUTF8(Qry.FieldByName('ENTREGA_UF').AsString);
+        Cliente.EnderecoEntrega.xBairro := RemoverAcentosPureUTF8(Qry.FieldByName('ENTREGA_XBAIRRO').AsString);
+        Cliente.EnderecoEntrega.xCpl    := RemoverAcentosPureUTF8(Qry.FieldByName('ENTREGA_XCPL').AsString);
+        Cliente.EnderecoEntrega.nro     := RemoverAcentosPureUTF8(Qry.FieldByName('ENTREGA_NRO').AsString);
+        Cliente.EnderecoEntrega.xLgr    := RemoverAcentosPureUTF8(Qry.FieldByName('ENTREGA_XLGR').AsString);
         if Qry.FieldByName('ENTREGA_CNPJCPF').AsString = '' then
           Cliente.EnderecoEntrega.CNPJCPF := Cliente.CNPJCPF
         else
-          Cliente.EnderecoEntrega.CNPJCPF := Qry.FieldByName('ENTREGA_CNPJCPF').AsString;
+          Cliente.EnderecoEntrega.CNPJCPF := RemoverAcentosPureUTF8(Qry.FieldByName('ENTREGA_CNPJCPF').AsString);
       end;
     end
     else
@@ -229,7 +299,7 @@ begin
 
     Result := Cliente;
   finally
-    Qry.Active:=False;
+    Qry.Active := False;
     Qry.Free;
     Trans.Free;
     Conn.Close(False);
@@ -350,9 +420,9 @@ begin
     // Boa prática: Verificar se a consulta retornou algum registro antes de ler
     if not Qry.EOF then
     begin
-      Produto.cProd := Qry.FieldByName('CPROD').AsString;
-      Produto.xProd := Qry.FieldByName('XPROD').AsString;
-      Produto.CFOP := Qry.FieldByName('CFOP').AsString;
+      Produto.cProd := RemoverAcentosPureUTF8(Qry.FieldByName('CPROD').AsString);
+      Produto.xProd := RemoverAcentosPureUTF8(Qry.FieldByName('XPROD').AsString);
+      Produto.CFOP := RemoverAcentosPureUTF8(Qry.FieldByName('CFOP').AsString);
       Produto.qCom := Qry.FieldByName('QCOM').AsCurrency;
       Produto.vUnCom := Qry.FieldByName('VUNCOM').AsCurrency;
       Produto.vProd := Qry.FieldByName('VPROD').AsCurrency;
@@ -408,24 +478,24 @@ begin
     // Boa prática: Verificar se a consulta retornou algum registro antes de ler
     if not Qry.EOF then
     begin
-      DadosGerais.ID := Qry.FieldByName('ID').AsString;
-      DadosGerais.Ide_natOp := Qry.FieldByName('IDE_NATOP').AsString;
-      DadosGerais.UF_OPER := Qry.FieldByName('DEST_ENDERDEST_UF').AsString;
-      DadosGerais.InfAdic_infCpl := Qry.FieldByName('INFADIC_INFCPL').AsString;;
-      DadosGerais.InfAdic_infAdFisco := Qry.FieldByName('INFADIC_INFADFISCO').AsString;;
+      DadosGerais.ID := RemoverAcentosPureUTF8(Qry.FieldByName('ID').AsString);
+      DadosGerais.Ide_natOp := RemoverAcentosPureUTF8(Qry.FieldByName('IDE_NATOP').AsString);
+      DadosGerais.UF_OPER := RemoverAcentosPureUTF8(Qry.FieldByName('DEST_ENDERDEST_UF').AsString);
+      DadosGerais.InfAdic_infCpl := RemoverAcentosPureUTF8(Qry.FieldByName('INFADIC_INFCPL').AsString);
+      DadosGerais.InfAdic_infAdFisco := RemoverAcentosPureUTF8(Qry.FieldByName('INFADIC_INFADFISCO').AsString);
       DadosGerais.Total_ICMSTot_vNF := Qry.FieldByName('TOTAL_ICMSTOT_VNF').AsCurrency;
       DadosGerais.Total_ICMSTot_vProd := Qry.FieldByName('TOTAL_ICMSTOT_VPROD').AsCurrency;
       DadosGerais.Transp_modFrete := Qry.FieldByName('TRANSP_MODFRETE').AsInteger;
-      DadosGerais.Transp_Transporta_CNPJCPF := Qry.FieldByName('TRANSP_TRANSPORTA_CNPJCPF').AsString;
-      DadosGerais.Transp_Transporta_IE := Qry.FieldByName('TRANSP_TRANSPORTA_IE').AsString;
-      DadosGerais.Transp_Transporta_UF := Qry.FieldByName('TRANSP_TRANSPORTA_UF').AsString;
-      DadosGerais.Transp_Transporta_xEnder := Qry.FieldByName('TRANSP_TRANSPORTA_XENDER').AsString;
-      DadosGerais.Transp_Transporta_xMun := Qry.FieldByName('TRANSP_TRANSPORTA_XMUN').AsString;
-      DadosGerais.Transp_Transporta_xNome := Qry.FieldByName('TRANSP_TRANSPORTA_XNOME').AsString;
+      DadosGerais.Transp_Transporta_CNPJCPF := RemoverAcentosPureUTF8(Qry.FieldByName('TRANSP_TRANSPORTA_CNPJCPF').AsString);
+      DadosGerais.Transp_Transporta_IE := RemoverAcentosPureUTF8(Qry.FieldByName('TRANSP_TRANSPORTA_IE').AsString);
+      DadosGerais.Transp_Transporta_UF := RemoverAcentosPureUTF8(Qry.FieldByName('TRANSP_TRANSPORTA_UF').AsString);
+      DadosGerais.Transp_Transporta_xEnder := RemoverAcentosPureUTF8(Qry.FieldByName('TRANSP_TRANSPORTA_XENDER').AsString);
+      DadosGerais.Transp_Transporta_xMun := RemoverAcentosPureUTF8(Qry.FieldByName('TRANSP_TRANSPORTA_XMUN').AsString);
+      DadosGerais.Transp_Transporta_xNome := RemoverAcentosPureUTF8(Qry.FieldByName('TRANSP_TRANSPORTA_XNOME').AsString);
       DadosGerais.Volume_qVol := Qry.FieldByName('QVOL').AsInteger;
-      DadosGerais.Volume_esp := Qry.FieldByName('ESP').AsString;
-      DadosGerais.Volume_marca := Qry.FieldByName('MARCA').AsString;
-      DadosGerais.Volume_nVol := Qry.FieldByName('NVOL').AsString;
+      DadosGerais.Volume_esp := RemoverAcentosPureUTF8(Qry.FieldByName('ESP').AsString);
+      DadosGerais.Volume_marca := RemoverAcentosPureUTF8(Qry.FieldByName('MARCA').AsString);
+      DadosGerais.Volume_nVol := RemoverAcentosPureUTF8(Qry.FieldByName('NVOL').AsString);
       DadosGerais.Volume_pesoL := Qry.FieldByName('PESOB').AsCurrency;
       DadosGerais.Volume_pesoB := Qry.FieldByName('PESOL').AsCurrency;
       DadosGerais.Duplicata_nDup  := '001';//Qry.FieldByName('NDUP').AsString;

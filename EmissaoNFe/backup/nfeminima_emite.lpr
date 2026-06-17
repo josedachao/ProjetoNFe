@@ -1,9 +1,15 @@
 program nfeminima_emite;
 
+{$mode ObjFPC}{$H+}
+{$codepage utf8}
+
 uses {$IFDEF UNIX}cthreads, cwstring, BlindagemFPU,{$ENDIF}
-  // Interfaces // <--- Obrigatorio para o ACBr instanciar os objetos visuais internos
-    SysUtils
+  {$IFDEF MSWINDOWS}
+  Windows, // Mapeia apenas APIs do sistema, sem GUI
+  {$ENDIF}
+  SysUtils
   , CustApp
+  , LazUTF8
   {$IFDEF MSWINDOWS}
   , ActiveX
   {$ENDIF}
@@ -174,18 +180,24 @@ var
   App: TNotaApplication;
 begin
   {$IFDEF MSWINDOWS}
+  // Altera a página de código do console do Windows para UTF-8 em tempo de execução
+  SetConsoleOutputCP(CP_UTF8);
+  SetConsoleCP(CP_UTF8);
+  SetMultiByteConversionCodePage(CP_UTF8);
+  {$ENDIF}
+  {$IFDEF MSWINDOWS}
   CoInitialize(nil); // <--- INICIALIZA O SUBSISTEMA DE REDE/CRIPTOGRAFIA DO WINDOWS
   {$ENDIF}
-    try
-      App := TNotaApplication.Create(nil);
-      App.Title := 'Emissor NFe';
-      App.Run;
-      App.Free;
-    finally
-      {$IFDEF MSWINDOWS}
-      CoUninitialize; // <--- LIBERA A MEMÓRIA AO FECHAR
-      {$ENDIF}
-    end;
+  try
+    App := TNotaApplication.Create(nil);
+    App.Title := 'Emissor NFe';
+    App.Run;
+    App.Free;
+  finally
+    {$IFDEF MSWINDOWS}
+    CoUninitialize; // <--- LIBERA A MEMÓRIA AO FECHAR
+    {$ENDIF}
+  end;
 end.
 
 
