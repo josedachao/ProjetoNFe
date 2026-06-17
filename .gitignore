@@ -24,6 +24,7 @@
 
 # Arquivos de uso do debugger
 *.dbg
+ppas.bat
 
 # Diretórios de saída comuns (caso você configure o projeto para salvar nelas)
 lib/
