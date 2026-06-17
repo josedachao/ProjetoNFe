@@ -22,7 +22,7 @@
 *.manifest
 *~
 
-# Arquivos de grupos de projetos
+# Arquivos de uso do debugger
 *.dbg
 
 # Diretórios de saída comuns (caso você configure o projeto para salvar nelas)
@@ -40,8 +40,8 @@
 nfeminima_emite
 
 # Pastas de conteúdo variável que não devem ser comitados
-PDFs/
-cert/
-Logs/
-NFe/
-Schemas/
+/PDFs/
+/cert/
+/Logs/
+/NFe/
+/Schemas/
