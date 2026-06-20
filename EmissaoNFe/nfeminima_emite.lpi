@@ -28,7 +28,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);C:\ACBR\Fontes\ACBrComum\"/>
-            <OtherUnitFiles Value="C:\ACBR\Fontes\ACBrDFe\;C:\ACBR\Fontes\ACBrComum\;C:\lazarus\components\lazutils\;C:\ACBR\Fontes\Terceiros\synalist\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\;C:\ACBR\Fontes\PCNComum\;C:\ACBR\Fontes\Terceiros\FastStringReplace\;C:\ACBR\Fontes\Terceiros\GZIPUtils\;C:\ACBR\Fontes\ACBrTCP\;C:\ACBR\Fontes\ACBrOpenSSL\;C:\ACBR\Fontes\ACBrIntegrador\;C:\ACBR\Fontes\ACBrDiversos\;C:\ACBR\Fontes\ACBrIntegrador\pcnVFPe\;C:\ACBR\Fontes\ACBrLibXML2\;C:\ACBR\Fontes\Terceiros\CodeGear\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\PCNNFe\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\;C:\ACBR\Fontes\ACBrDFe\Comum\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\FPDF\;C:\ACBR\Fontes\Terceiros\FPDF-Pascal\;C:\ACBR\Fontes\Terceiros\DelphiZXingQRCode\"/>
+            <OtherUnitFiles Value="C:\ACBR\Fontes\ACBrDFe\;C:\ACBR\Fontes\ACBrComum\;C:\lazarus\components\lazutils\;C:\ACBR\Fontes\Terceiros\synalist\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\;C:\ACBR\Fontes\PCNComum\;C:\ACBR\Fontes\Terceiros\FastStringReplace\;C:\ACBR\Fontes\Terceiros\GZIPUtils\;C:\ACBR\Fontes\ACBrTCP\;C:\ACBR\Fontes\ACBrOpenSSL\;C:\ACBR\Fontes\ACBrIntegrador\;C:\ACBR\Fontes\ACBrDiversos\;C:\ACBR\Fontes\ACBrIntegrador\pcnVFPe\;C:\ACBR\Fontes\ACBrLibXML2\;C:\ACBR\Fontes\Terceiros\CodeGear\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\PCNNFe\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\;C:\ACBR\Fontes\ACBrDFe\Comum\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\FPDF\;C:\ACBR\Fontes\Terceiros\FPDF-Pascal\;C:\ACBR\Fontes\Terceiros\DelphiZXingQRCode\;..\CodigoComum"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -61,7 +61,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);C:\ACBR\Fontes\ACBrComum\"/>
-            <OtherUnitFiles Value="C:\ACBR\Fontes\ACBrDFe\;C:\ACBR\Fontes\ACBrComum\;C:\lazarus\components\lazutils\;C:\ACBR\Fontes\Terceiros\synalist\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\;C:\ACBR\Fontes\PCNComum\;C:\ACBR\Fontes\Terceiros\FastStringReplace\;C:\ACBR\Fontes\Terceiros\GZIPUtils\;C:\ACBR\Fontes\ACBrTCP\;C:\ACBR\Fontes\ACBrOpenSSL\;C:\ACBR\Fontes\ACBrIntegrador\;C:\ACBR\Fontes\ACBrDiversos\;C:\ACBR\Fontes\ACBrIntegrador\pcnVFPe\;C:\ACBR\Fontes\ACBrLibXML2\;C:\ACBR\Fontes\Terceiros\CodeGear\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\PCNNFe\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\;C:\ACBR\Fontes\ACBrDFe\Comum\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\FPDF\;C:\ACBR\Fontes\Terceiros\FPDF-Pascal\;C:\ACBR\Fontes\Terceiros\DelphiZXingQRCode\"/>
+            <OtherUnitFiles Value="C:\ACBR\Fontes\ACBrDFe\;C:\ACBR\Fontes\ACBrComum\;C:\lazarus\components\lazutils\;C:\ACBR\Fontes\Terceiros\synalist\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\;C:\ACBR\Fontes\PCNComum\;C:\ACBR\Fontes\Terceiros\FastStringReplace\;C:\ACBR\Fontes\Terceiros\GZIPUtils\;C:\ACBR\Fontes\ACBrTCP\;C:\ACBR\Fontes\ACBrOpenSSL\;C:\ACBR\Fontes\ACBrIntegrador\;C:\ACBR\Fontes\ACBrDiversos\;C:\ACBR\Fontes\ACBrIntegrador\pcnVFPe\;C:\ACBR\Fontes\ACBrLibXML2\;C:\ACBR\Fontes\Terceiros\CodeGear\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\PCNNFe\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\;C:\ACBR\Fontes\ACBrDFe\Comum\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\FPDF\;C:\ACBR\Fontes\Terceiros\FPDF-Pascal\;C:\ACBR\Fontes\Terceiros\DelphiZXingQRCode\;..\CodigoComum"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -101,7 +101,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);C:\ACBR\Fontes\ACBrComum\"/>
-            <OtherUnitFiles Value="C:\ACBR\Fontes\ACBrDFe\;C:\ACBR\Fontes\ACBrComum\;C:\lazarus\components\lazutils\;C:\ACBR\Fontes\Terceiros\synalist\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\;C:\ACBR\Fontes\PCNComum\;C:\ACBR\Fontes\Terceiros\FastStringReplace\;C:\ACBR\Fontes\Terceiros\GZIPUtils\;C:\ACBR\Fontes\ACBrTCP\;C:\ACBR\Fontes\ACBrOpenSSL\;C:\ACBR\Fontes\ACBrIntegrador\;C:\ACBR\Fontes\ACBrDiversos\;C:\ACBR\Fontes\ACBrIntegrador\pcnVFPe\;C:\ACBR\Fontes\ACBrLibXML2\;C:\ACBR\Fontes\Terceiros\CodeGear\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\PCNNFe\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\;C:\ACBR\Fontes\ACBrDFe\Comum\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\FPDF\;C:\ACBR\Fontes\Terceiros\FPDF-Pascal\;C:\ACBR\Fontes\Terceiros\DelphiZXingQRCode\"/>
+            <OtherUnitFiles Value="C:\ACBR\Fontes\ACBrDFe\;C:\ACBR\Fontes\ACBrComum\;C:\lazarus\components\lazutils\;C:\ACBR\Fontes\Terceiros\synalist\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\;C:\ACBR\Fontes\PCNComum\;C:\ACBR\Fontes\Terceiros\FastStringReplace\;C:\ACBR\Fontes\Terceiros\GZIPUtils\;C:\ACBR\Fontes\ACBrTCP\;C:\ACBR\Fontes\ACBrOpenSSL\;C:\ACBR\Fontes\ACBrIntegrador\;C:\ACBR\Fontes\ACBrDiversos\;C:\ACBR\Fontes\ACBrIntegrador\pcnVFPe\;C:\ACBR\Fontes\ACBrLibXML2\;C:\ACBR\Fontes\Terceiros\CodeGear\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\PCNNFe\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\;C:\ACBR\Fontes\ACBrDFe\Comum\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\FPDF\;C:\ACBR\Fontes\Terceiros\FPDF-Pascal\;C:\ACBR\Fontes\Terceiros\DelphiZXingQRCode\;..\CodigoComum"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -159,7 +159,7 @@
         <UnitName Value="EmissaoNFe"/>
       </Unit>
       <Unit>
-        <Filename Value="fileloggerunit.pas"/>
+        <Filename Value="..\CodigoComum\fileloggerunit.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="FileLoggerUnit"/>
       </Unit>
@@ -178,7 +178,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);C:\ACBR\Fontes\ACBrComum\"/>
-      <OtherUnitFiles Value="C:\ACBR\Fontes\ACBrDFe\;C:\ACBR\Fontes\ACBrComum\;C:\lazarus\components\lazutils\;C:\ACBR\Fontes\Terceiros\synalist\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\;C:\ACBR\Fontes\PCNComum\;C:\ACBR\Fontes\Terceiros\FastStringReplace\;C:\ACBR\Fontes\Terceiros\GZIPUtils\;C:\ACBR\Fontes\ACBrTCP\;C:\ACBR\Fontes\ACBrOpenSSL\;C:\ACBR\Fontes\ACBrIntegrador\;C:\ACBR\Fontes\ACBrDiversos\;C:\ACBR\Fontes\ACBrIntegrador\pcnVFPe\;C:\ACBR\Fontes\ACBrLibXML2\;C:\ACBR\Fontes\Terceiros\CodeGear\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\PCNNFe\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\;C:\ACBR\Fontes\ACBrDFe\Comum\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\FPDF\;C:\ACBR\Fontes\Terceiros\FPDF-Pascal\;C:\ACBR\Fontes\Terceiros\DelphiZXingQRCode\"/>
+      <OtherUnitFiles Value="C:\ACBR\Fontes\ACBrDFe\;C:\ACBR\Fontes\ACBrComum\;C:\lazarus\components\lazutils\;C:\ACBR\Fontes\Terceiros\synalist\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\;C:\ACBR\Fontes\PCNComum\;C:\ACBR\Fontes\Terceiros\FastStringReplace\;C:\ACBR\Fontes\Terceiros\GZIPUtils\;C:\ACBR\Fontes\ACBrTCP\;C:\ACBR\Fontes\ACBrOpenSSL\;C:\ACBR\Fontes\ACBrIntegrador\;C:\ACBR\Fontes\ACBrDiversos\;C:\ACBR\Fontes\ACBrIntegrador\pcnVFPe\;C:\ACBR\Fontes\ACBrLibXML2\;C:\ACBR\Fontes\Terceiros\CodeGear\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\PCNNFe\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\;C:\ACBR\Fontes\ACBrDFe\Comum\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\FPDF\;C:\ACBR\Fontes\Terceiros\FPDF-Pascal\;C:\ACBR\Fontes\Terceiros\DelphiZXingQRCode\;..\CodigoComum"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>

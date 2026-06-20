@@ -88,6 +88,7 @@ function ConnectNFE: Boolean;
 function GetNumItens(IDNFe: Integer): Integer;
 function GetItem(const IDNFe: Integer; const NumItem: Integer): TProdutoResultado;
 function GetDadosGeraisNFe(const NumNFe: Integer): TDadosGeraisNFe;
+function SetSummaryData(const NumNFe: Integer; const ChaveNFe, ProtocoloNFe: string): Boolean;
 
 
 implementation
@@ -512,6 +513,86 @@ begin
     Qry.Free;
     Trans.Free;
     Conn.Close(False);
+    Conn.Free;
+  end;
+end;
+
+function SetSummaryData(const NumNFe: Integer; const ChaveNFe, ProtocoloNFe: string): Boolean;
+const
+  cSQL = 'INSERT INTO NFE_DBG (IDE_NNF, NFE_CHAVE, NFE_PROTOCOLO) VALUES (:NUMNFE, :CHAVENFE, :PROTOCOLONFE);';
+var
+  Conn  : TIBConnection;
+  Trans : TSQLTransaction;
+  Qry   : TSQLQuery;
+begin
+  Result := False;
+
+  // Instancia os objetos antes do try principal para evitar Access Violations no finally
+  Conn  := TIBConnection.Create(nil);
+  Trans := TSQLTransaction.Create(nil);
+  Qry   := TSQLQuery.Create(nil);
+
+  try
+    { Configuração da conexão }
+    Conn.HostName     := DB_HOST;
+    Conn.DatabaseName := DB_NAME; // ATENÇÃO: Garanta que seja um caminho absoluto!
+    Conn.UserName     := DB_USER;
+    Conn.Password     := DB_PASSWORD;
+    Conn.Port         := DB_PORT;
+    Conn.Charset      := DB_CHARSET;
+
+    // Vinculações
+    Conn.Transaction := Trans;
+    Qry.DataBase     := Conn;
+    Qry.Transaction  := Trans;
+
+    // Use .Text ao invés de .Add() para garantir que a query está limpa
+    Qry.SQL.Text := cSQL;
+
+    try
+      Conn.Open;
+
+      // Garante que a transação está rodando
+      if not Trans.Active then
+        Trans.StartTransaction;
+
+      // PREPARE: O pulo do gato. Envia o SQL pro banco interpretar os parâmetros
+      // antes de injetarmos os valores.
+      Qry.Prepare;
+
+      Qry.ParamByName('NUMNFE').AsInteger  := NumNFe;
+      Qry.ParamByName('CHAVENFE').AsString := ChaveNFe;
+      Qry.ParamByName('PROTOCOLONFE').AsString := ProtocoloNFe;
+
+      Qry.ExecSQL;
+
+      // O Commit é o que efetiva a gravação física (Write-Ahead Logging do Firebird)
+      Trans.Commit;
+
+      Result := True;
+    except
+      on E: Exception do
+      begin
+        Result := False;
+
+        // Trava de Segurança: Só tenta fazer Rollback se a transação chegou a ser aberta
+        if Trans.Active then
+          Trans.Rollback;
+
+        // Imprime o erro REAL devolvido pelo Firebird
+        WriteLn('Erro BD [SetSummaryData]: ', E.Message);
+
+        // Em CLI, repassar o 'raise' pode quebrar a execução em lote.
+        // Como a função já retorna False, o chamador pode tratar graciosamente.
+        // raise;
+      end;
+    end;
+  finally
+    // A limpeza deve ser feita na ordem inversa da criação (Filho -> Pai)
+    // OBS: Retirado o "Qry.Active := False" pois é incorreto para ExecSQL.
+    Qry.Free;
+    Trans.Free;
+    Conn.Close; // No Lazarus padrão, Close() não leva o parâmetro 'False'
     Conn.Free;
   end;
 end;

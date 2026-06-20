@@ -16,6 +16,77 @@
     </General>
     <BuildModes>
       <Item Name="Default" Default="True"/>
+      <Item Name="Debug">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="..\EmissaoNFe\executables\i386-win32\nfeminima_eventos"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir);C:\ACBR\Fontes\ACBrComum\"/>
+            <OtherUnitFiles Value="C:\ACBR\Fontes\ACBrDFe\;C:\ACBR\Fontes\ACBrComum\;C:\lazarus\components\lazutils\;C:\ACBR\Fontes\Terceiros\synalist\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\;C:\ACBR\Fontes\PCNComum\;C:\ACBR\Fontes\Terceiros\FastStringReplace\;C:\ACBR\Fontes\Terceiros\GZIPUtils\;C:\ACBR\Fontes\ACBrTCP\;C:\ACBR\Fontes\ACBrOpenSSL\;C:\ACBR\Fontes\ACBrIntegrador\;C:\ACBR\Fontes\ACBrDiversos\;C:\ACBR\Fontes\ACBrIntegrador\pcnVFPe\;C:\ACBR\Fontes\ACBrLibXML2\;C:\ACBR\Fontes\Terceiros\CodeGear\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\PCNNFe\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\;C:\ACBR\Fontes\ACBrDFe\Comum\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\FPDF\;C:\ACBR\Fontes\Terceiros\FPDF-Pascal\;C:\ACBR\Fontes\Terceiros\DelphiZXingQRCode\;..\CodigoComum"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <Checks>
+              <IOChecks Value="True"/>
+              <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
+            </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <DebugInfoType Value="dsDwarf3"/>
+              <UseHeaptrc Value="True"/>
+              <TrashVariables Value="True"/>
+              <UseExternalDbgSyms Value="True"/>
+            </Debugging>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dUseCThreads
+-dNoGUI"/>
+          </Other>
+        </CompilerOptions>
+      </Item>
+      <Item Name="Release">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="..\EmissaoNFe\executables\i386-win32\nfeminima_eventos"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir);C:\ACBR\Fontes\ACBrComum\"/>
+            <OtherUnitFiles Value="C:\ACBR\Fontes\ACBrDFe\;C:\ACBR\Fontes\ACBrComum\;C:\lazarus\components\lazutils\;C:\ACBR\Fontes\Terceiros\synalist\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\;C:\ACBR\Fontes\PCNComum\;C:\ACBR\Fontes\Terceiros\FastStringReplace\;C:\ACBR\Fontes\Terceiros\GZIPUtils\;C:\ACBR\Fontes\ACBrTCP\;C:\ACBR\Fontes\ACBrOpenSSL\;C:\ACBR\Fontes\ACBrIntegrador\;C:\ACBR\Fontes\ACBrDiversos\;C:\ACBR\Fontes\ACBrIntegrador\pcnVFPe\;C:\ACBR\Fontes\ACBrLibXML2\;C:\ACBR\Fontes\Terceiros\CodeGear\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\PCNNFe\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\;C:\ACBR\Fontes\ACBrDFe\Comum\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\FPDF\;C:\ACBR\Fontes\Terceiros\FPDF-Pascal\;C:\ACBR\Fontes\Terceiros\DelphiZXingQRCode\;..\CodigoComum"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <Optimizations>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <RunWithoutDebug Value="True"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dUseCThreads
+-dNoGUI"/>
+          </Other>
+        </CompilerOptions>
+      </Item>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -24,10 +95,32 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
+    <RequiredPackages>
+      <Item>
+        <PackageName Value="LCLBase"/>
+      </Item>
+      <Item>
+        <PackageName Value="LazUtils"/>
+      </Item>
+    </RequiredPackages>
     <Units>
       <Unit>
         <Filename Value="nfeminima_eventos.lpr"/>
         <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="cancelamentonfe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="CancelamentoNFe"/>
+      </Unit>
+      <Unit>
+        <Filename Value="configuracoesnfe.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\CodigoComum\fileloggerunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="FileLoggerUnit"/>
       </Unit>
     </Units>
   </ProjectOptions>
@@ -38,9 +131,14 @@
       <Filename Value="..\EmissaoNFe\executables\i386-win32\nfeminima_eventos"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="$(ProjOutDir)"/>
+      <IncludeFiles Value="$(ProjOutDir);C:\ACBR\Fontes\ACBrComum\"/>
+      <OtherUnitFiles Value="C:\ACBR\Fontes\ACBrDFe\;C:\ACBR\Fontes\ACBrComum\;C:\lazarus\components\lazutils\;C:\ACBR\Fontes\Terceiros\synalist\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\;C:\ACBR\Fontes\PCNComum\;C:\ACBR\Fontes\Terceiros\FastStringReplace\;C:\ACBR\Fontes\Terceiros\GZIPUtils\;C:\ACBR\Fontes\ACBrTCP\;C:\ACBR\Fontes\ACBrOpenSSL\;C:\ACBR\Fontes\ACBrIntegrador\;C:\ACBR\Fontes\ACBrDiversos\;C:\ACBR\Fontes\ACBrIntegrador\pcnVFPe\;C:\ACBR\Fontes\ACBrLibXML2\;C:\ACBR\Fontes\Terceiros\CodeGear\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\PCNNFe\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\;C:\ACBR\Fontes\ACBrDFe\Comum\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\;C:\ACBR\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\FPDF\;C:\ACBR\Fontes\Terceiros\FPDF-Pascal\;C:\ACBR\Fontes\Terceiros\DelphiZXingQRCode\;..\CodigoComum"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
+    <Other>
+      <CustomOptions Value="-dUseCThreads
+-dNoGUI"/>
+    </Other>
   </CompilerOptions>
   <Debugging>
     <Exceptions>

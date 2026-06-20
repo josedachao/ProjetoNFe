@@ -186,6 +186,7 @@ begin
         LogToFile('SUCESSO! NFe Autorizada.');
         // Se você precisar gerar o PDF silenciosamente, o comando é este:
         ACBrNFe1.NotasFiscais.Items[0].ImprimirPDF;
+        SetSummaryData(NotaF.NFe.Ide.nNF, NotaF.NFe.procNFe.chNFe, NotaF.NFe.procNFe.nProt);
       end
       else
       begin

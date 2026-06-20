@@ -37,10 +37,10 @@ bin/
 # Arquivos de log
 *.log
 
-# Arquivos executáveis para Linux
+# Arquivos executáveis para Linux (deve ser usado o nome exato dos arquivos)
 nfeminima_emite
 
-# Pastas de conteúdo variável que não devem ser comitados
+# Pastas de conteúdo variável que não deve ser comitado, ou de testes, ou ainda que sejam exclusivos para produção
 PDFs/
 cert/
 Logs/
