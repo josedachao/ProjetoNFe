@@ -27,6 +27,7 @@ type
   TCancelamento =  record
     Chave: string;
     ProtocoloEnvio: string;
+    DataEmissao: TDateTime;
     RetornoWS: string;
     RetWS: string;
     cStat:Integer;
@@ -91,10 +92,10 @@ const
 
   FREENFEXMLPATH = 'C:\FreeNFe\09167426000109\NFE\';
 
-function ObterAnoMes(const ADate: TDate): String;
+function ObterAnoMes(const ADateTime: TDateTime): String;
 begin
   // 'yyyymm' extrai o ano com 4 dígitos e o mês com 2 dígitos e zero à esquerda
-  Result := FormatDateTime('yyyymm', ADate);
+  Result := FormatDateTime('yyyymm', ADateTime);
 end;
 
 procedure DuplicateAndRename(const FileName: string);
@@ -272,11 +273,11 @@ begin
     AdicionarLiteral := False;
     EmissaoPathNFe   := True;
     SalvarEvento     := True;
-    SepararPorCNPJ   := True;
+    //SepararPorCNPJ   := True;  // <<<------<<< comentado devido ao caminho do FreeNFe
     SepararPorModelo := True;
     {$IFDEF WINDOWS}
     PathSchemas      := ExtractFilePath(ParamStr(0))+'Schemas' + PathDelim + 'NFe';
-    PathNFe          := ExtractFilePath(ParamStr(0))+'NFe';
+    //PathNFe          := ExtractFilePath(ParamStr(0))+'NFe';  // <<<------<<< comentado devido ao caminho do FreeNFe
     PathInu          := ExtractFilePath(ParamStr(0))+'Inutilizacao';
     PathEvento       := ExtractFilePath(ParamStr(0))+'Evento';
 //    PathMensal       := ExtractFilePath(ParamStr(0))+'NFe';
@@ -326,7 +327,8 @@ begin
     GetDadosNFe(NumNFe, Cancelamento);
 
     // Define a variável com o caminho físico do XML
-    CaminhoXMLOriginal := FREENFEXMLPATH + Cancelamento.Chave + '-nfe.xml';  //'C:\Users\ASUSTUFI56600K\Desktop\ProjetoNFe\ProjetoNFe\EmissaoNFe\executables\i386-win32\NFe\09167426000109\NFe\202606\' + Cancelamento.Chave + '-nfe.xml';
+    CaminhoXMLOriginal := FREENFEXMLPATH + ObterAnoMes(Cancelamento.DataEmissao) + '\' + Cancelamento.Chave + '-nfe.xml';  //'C:\Users\ASUSTUFI56600K\Desktop\ProjetoNFe\ProjetoNFe\EmissaoNFe\executables\i386-win32\NFe\09167426000109\NFe\202606\' + Cancelamento.Chave + '-nfe.xml';
+    ACBrNFe1.Configuracoes.Arquivos.PathNFe := FREENFEXMLPATH;
 
     // Trava de segurança: Garante que o arquivo físico realmente existe antes de prosseguir
     if not FileExists(CaminhoXMLOriginal) then
@@ -432,8 +434,8 @@ end;
 
 procedure GetDadosNFe(const NumNFe: Integer; var Cancelamento: TCancelamento);
 const
-  //COMENTADA APENAS PARA DEBUG ---> cSQL = 'SELECT a.ID, a.IDE_NNF, a.NFE_CHAVE, a.NFE_PROTOCOLO FROM NFE a WHERE a.IDE_NNF = :NUMNNF;';
-  cSQL = 'SELECT a.IDE_NNF, a.NFE_CHAVE, a.NFE_PROTOCOLO FROM NFE_DBG a WHERE a.IDE_NNF = :NUMNNF;';
+  cSQL = 'SELECT a.ID, a.IDE_NNF, a.IDE_DEMI, a.NFE_CHAVE, a.NFE_PROTOCOLO FROM NFE a WHERE a.IDE_NNF = :NUMNNF;';
+  //cSQL = 'SELECT a.IDE_NNF, a.IDE_DEMI, a.NFE_CHAVE, a.NFE_PROTOCOLO FROM NFE_DBG a WHERE a.IDE_NNF = :NUMNNF;';
 var
   Conn   : TIBConnection;
   Trans  : TSQLTransaction;
@@ -467,6 +469,7 @@ begin
     begin
       Cancelamento.Chave := Qry.FieldByName('NFE_CHAVE').AsString;
       Cancelamento.ProtocoloEnvio := Qry.FieldByName('NFE_PROTOCOLO').AsString;
+      Cancelamento.DataEmissao := Qry.FieldByName('IDE_DEMI').AsDateTime;
     end
     else
     begin
@@ -565,11 +568,11 @@ end;
 function SetCancelada(const NumNFe: Integer; const NFeXML: string): Boolean;
 const
   cSQLNFE_DBG = 'UPDATE NFE_DBG SET NFE_SITUACAO = ''4'', NFE_XML = :NFEXML WHERE IDE_NNF = :NUMNFE;';
-  //cSQLNFE = 'UPDATE NFE SET NFE_SITUACAO = ''4'', NFE_XML = :NFEXML WHERE IDE_NNF = :NUMNFE;';
+  cSQLNFE = 'UPDATE NFE SET NFE_SITUACAO = ''4'', NFE_XML = :NFEXML WHERE IDE_NNF = :NUMNFE;';
 var
   Conn  : TIBConnection;
   Trans : TSQLTransaction;
- // QryNFE: TSQLQuery;
+  QryNFE: TSQLQuery;
   QryNFE_DBG   : TSQLQuery;
 begin
   Result := False;
@@ -577,7 +580,7 @@ begin
   // Instancia os objetos antes do try principal para evitar Access Violations no finally
   Conn  := TIBConnection.Create(nil);
   Trans := TSQLTransaction.Create(nil);
-  //QryNFE:= TSQLQuery.Create(nil);
+  QryNFE:= TSQLQuery.Create(nil);
   QryNFE_DBG   := TSQLQuery.Create(nil);
 
   try
@@ -592,16 +595,16 @@ begin
     // Vinculações
     Conn.Transaction := Trans;
 
-   // QryNFE.DataBase     := Conn;
-   // QryNFE.Transaction  := Trans;
-   // QryNFE.SQL.Clear;
+    QryNFE.DataBase     := Conn;
+    QryNFE.Transaction  := Trans;
+    QryNFE.SQL.Clear;
 
     QryNFE_DBG.DataBase     := Conn;
     QryNFE_DBG.Transaction  := Trans;
     QryNFE_DBG.SQL.Clear;
 
     // Use .Text ao invés de .Add() para garantir que a query está limpa
-   // QryNFE.SQL.Text := cSQLNFE;
+    QryNFE.SQL.Text := cSQLNFE;
     QryNFE_DBG.SQL.Text := cSQLNFE_DBG;
 
     try
@@ -613,16 +616,16 @@ begin
 
       // PREPARE: O pulo do gato. Envia o SQL pro banco interpretar os parâmetros
       // antes de injetarmos os valores.
-    //  QryNFE.Prepare;
+      QryNFE.Prepare;
       QryNFE_DBG.Prepare;
 
-     // QryNFE.ParamByName('NUMNFE').AsInteger  := NumNFe;
-     // QryNFE.ParamByName('NFEXML').AsString := NFeXML;
+      QryNFE.ParamByName('NUMNFE').AsInteger  := NumNFe;
+      QryNFE.ParamByName('NFEXML').AsString := NFeXML;
 
       QryNFE_DBG.ParamByName('NUMNFE').AsInteger  := NumNFe;
       QryNFE_DBG.ParamByName('NFEXML').AsString := NFeXML;
 
-     // QryNFE.ExecSQL;
+      QryNFE.ExecSQL;
       QryNFE_DBG.ExecSQL;
 
       // O Commit é o que efetiva a gravação física (Write-Ahead Logging do Firebird)
@@ -649,7 +652,7 @@ begin
   finally
     // A limpeza deve ser feita na ordem inversa da criação (Filho -> Pai)
     // OBS: Retirado o "Qry.Active := False" pois é incorreto para ExecSQL.
-   // QryNFE.Free;
+    QryNFE.Free;
     QryNFE_DBG.Free;
     Trans.Free;
     Conn.Close; // No Lazarus padrão, Close() não leva o parâmetro 'False'

@@ -158,6 +158,7 @@ begin
   WriteLn('--------------------------------------------------');
   WriteLn('Chave de envio da NFe: ' + Cancelamento.Chave);
   WriteLn('Protocolo de envio da NFe: ' + Cancelamento.ProtocoloEnvio);
+  WriteLn('Data emissao da NFe: ' + DateTimeToStr(Cancelamento.DataEmissao));
   WriteLn('--------------------------------------------------');
   WriteLn('Chave NFe: ' + Cancelamento.chNFe);
   WriteLn('Protocolo de retorno da NFe: ' + Cancelamento.ProtocoloRetorno);
@@ -189,6 +190,7 @@ begin
   LogToFile('--------------------------------------------------');
   LogToFile('Chave de envio da NFe: ' + Cancelamento.Chave);
   LogToFile('Protocolo de envio da NFe: ' + Cancelamento.ProtocoloEnvio);
+  LogToFile('Data emissao da NFe: ' + DateTimeToStr(Cancelamento.DataEmissao));
   LogToFile('--------------------------------------------------');
   LogToFile('Chave NFe: ' + Cancelamento.chNFe);
   LogToFile('Protocolo de retorno da NFe: ' + Cancelamento.ProtocoloRetorno);
