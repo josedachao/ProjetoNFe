@@ -11,8 +11,8 @@ uses
   , CustApp
   , CancelamentoNFe
   , TypInfo
-  , ACBrDFe.Conversao
   , FileLoggerUnit
+  , DTOs
   ;
 
 type
@@ -135,7 +135,7 @@ procedure TNFeEventosApp.CancelarNotaFiscal(const NumeroNFe, Motivo, Ambiente: s
 var
   NumNFe: Integer;
   Cancelamento: TCancelamento;
-  Ambi: TACBrTipoAmbiente;
+  Ambi: TTipoAmbiente;
 begin
   if Ambiente = 'homologacao' then
     Ambi := taHomologacao;
@@ -164,12 +164,12 @@ begin
   WriteLn('Protocolo de retorno da NFe: ' + Cancelamento.ProtocoloRetorno);
   WriteLn('Status: ' + IntToStr(Cancelamento.cStat));
   WriteLn('Motivo: ' + Cancelamento.xMotivo);
-  WriteLn('Tipo de evento: ' + GetEnumName(TypeInfo(TACBrTipoEvento), Ord(Cancelamento.tpEvento)));
+  WriteLn('Tipo de evento: ' + GetEnumName(TypeInfo(TTipoEvento), Ord(Cancelamento.tpEvento)));
   WriteLn('Evento: ' + Cancelamento.xEvento);
   WriteLn('Num. Seq. Evento: ' + IntToStr(Cancelamento.nSeqEvento));
   WriteLn('--------------------------------------------------');
   WriteLn('Id: ' + Cancelamento.Id);
-  WriteLn('Tipo ambiente: ' + GetEnumName(TypeInfo(TACBrTipoAmbiente), Ord(Cancelamento.tpAmb)));
+  WriteLn('Tipo ambiente: ' + GetEnumName(TypeInfo(TTipoAmbiente), Ord(Cancelamento.tpAmb)));
   WriteLn('Ver aplic: ' + Cancelamento.verAplic);
   WriteLn('Cód. Órgão: ' + IntToStr(Cancelamento.cOrgao));
   WriteLn('--------------------------------------------------');
@@ -196,12 +196,12 @@ begin
   LogToFile('Protocolo de retorno da NFe: ' + Cancelamento.ProtocoloRetorno);
   LogToFile('Status: ' + IntToStr(Cancelamento.cStat));
   LogToFile('Motivo: ' + Cancelamento.xMotivo);
-  LogToFile('Tipo de evento: ' + GetEnumName(TypeInfo(TACBrTipoEvento), Ord(Cancelamento.tpEvento)));
+  LogToFile('Tipo de evento: ' + GetEnumName(TypeInfo(TTipoEvento), Ord(Cancelamento.tpEvento)));
   LogToFile('Evento: ' + Cancelamento.xEvento);
   LogToFile('Num. Seq. Evento: ' + IntToStr(Cancelamento.nSeqEvento));
   LogToFile('--------------------------------------------------');
   LogToFile('Id: ' + Cancelamento.Id);
-  LogToFile('Tipo ambiente: ' + GetEnumName(TypeInfo(TACBrTipoAmbiente), Ord(Cancelamento.tpAmb)));
+  LogToFile('Tipo ambiente: ' + GetEnumName(TypeInfo(TTipoAmbiente), Ord(Cancelamento.tpAmb)));
   LogToFile('Ver aplic: ' + Cancelamento.verAplic);
   LogToFile('Cód. Órgão: ' + IntToStr(Cancelamento.cOrgao));
   LogToFile('--------------------------------------------------');

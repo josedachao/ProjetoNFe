@@ -120,7 +120,7 @@ begin
       end;
     end;
 
-    {//>>>>>ATENÇÃO FOI COMENTADO O CÓDIGO ABAIXO PARA TESTES, O CORRETO É NÃO SINCRONIZAR AMBIENTE DE HOMOLOGAÇÃO<<<<<
+    //>>>>>ATENÇÃO FOI COMENTADO O CÓDIGO ABAIXO PARA TESTES, O CORRETO É NÃO SINCRONIZAR AMBIENTE DE HOMOLOGAÇÃO<<<<<
 
     // ---- UPGRADE: Verificação de Ambiente de Homologação ----
     if TpAmb = '2' then
@@ -128,7 +128,7 @@ begin
       Writeln('ERRO: NFe emitida em ambiente de homologacao. Banco de dados nao atualizado.');
       ExitCode := 7;
       Exit;
-    end;}
+    end;
     // ---------------------------------------------------------
 
     if (NumNF = '') or (Chave = '') or (Protocolo = '') or (DataHoraDB = 0) then

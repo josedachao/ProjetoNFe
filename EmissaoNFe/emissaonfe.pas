@@ -15,10 +15,8 @@ uses
   , pcnConversaoNFe
   , ACBrDFeUtil
   , ACBrDFe.Conversao
-//  , ACBrNFeDANFeRLClass
   , ACBrNFeDANFeFPDF
   , ACBrMail
-//  , SynHighlighterXML
   , ACBrDFeSSL
   , uDBService
   , geracaonfeteste
@@ -33,7 +31,6 @@ var
   ACBrNFe1: TACBrNFe; //unit ACBrNFe
   ACBrNFeDANFe: TACBrNFeDANFeFPDF;  //unit ACBrNFeDANFeRLClass
   ACBrMail1: TACBrMail;  //unit ACBrMail
-//  SynXMLSyn1: TSynXMLSyn;  //unit SynHighlighterXML
 
 procedure ConfigurarEmail;
 begin

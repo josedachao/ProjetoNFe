@@ -122,6 +122,30 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="FileLoggerUnit"/>
       </Unit>
+      <Unit>
+        <Filename Value="..\CodigoComum\utils.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="firebirdrepository.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="FirebirdRepository"/>
+      </Unit>
+      <Unit>
+        <Filename Value="dtos.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="DTOs"/>
+      </Unit>
+      <Unit>
+        <Filename Value="configacbr.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ConfigACBr"/>
+      </Unit>
+      <Unit>
+        <Filename Value="acbrservice.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ACBrService"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

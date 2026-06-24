@@ -519,7 +519,7 @@ end;
 
 function SetSummaryData(const NumNFe: Integer; const ChaveNFe, ProtocoloNFe: string): Boolean;
 const
-  cSQL = 'INSERT INTO NFE_DBG (IDE_NNF, NFE_CHAVE, NFE_PROTOCOLO) VALUES (:NUMNFE, :CHAVENFE, :PROTOCOLONFE);';
+  cSQL = 'INSERT INTO NFE_DBG (IDE_NNF, NFE_CHAVE, NFE_PROTOCOLO, CANCELADA) VALUES (:NUMNFE, :CHAVENFE, :PROTOCOLONFE, ''N'');';
 var
   Conn  : TIBConnection;
   Trans : TSQLTransaction;
